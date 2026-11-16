@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="sv" data-nerd="off" data-diff="medium">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fysik 1b Energi</title>
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --surface: #e5e7eb;
+      --hover: #d1d5db;
+      --text: #111827;
+      --muted: #4b5563;
+      --primary: #111827;
+      --primary-fg: #ffffff;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+      --success-bg: #dcfce7;
+      --success-fg: #14532d;
+      --error-bg: #fee2e2;
+      --error-fg: #7f1d1d;
+      --nerd-bg: #dbeafe;
+      --nerd-fg: #1e3a8a;
+      --c-ep: #1d4ed8;
+      --c-ek: #15803d;
+      --c-wf: #b45309;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0f0f0f;
+      --card: #1a1a1a;
+      --surface: #262626;
+      --hover: #333333;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --primary: #f3f4f6;
+      --primary-fg: #111827;
+      --danger: #dc2626;
+      --danger-hover: #ef4444;
+      --success-bg: #14532d;
+      --success-fg: #dcfce7;
+      --error-bg: #7f1d1d;
+      --error-fg: #fee2e2;
+      --nerd-bg: #1e3a8a;
+      --nerd-fg: #dbeafe;
+      --c-ep: #60a5fa;
+      --c-ek: #34d399;
+      --c-wf: #fbbf24;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0;
+      font-style: normal;
+      letter-spacing: 0;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 16px 16px 48px;
+    }
+
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); }
+    .stack > * + * { margin-top: 12px; }
+    .stack-sm > * + * { margin-top: 8px; }
+
+    .row-between {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bar-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* Nerd mode */
+    .nerd-only { display: none; }
+    html[data-nerd="on"] .nerd-only { display: block; }
+    html[data-nerd="on"] th.nerd-only,
+    html[data-nerd="on"] td.nerd-only { display: table-cell; }
+    html[data-nerd="on"] span.nerd-only { display: inline; }
+
+    .nerd-block {
+      margin-top: 8px;
+      background: var(--nerd-bg);
+      color: var(--nerd-fg);
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+
+    /* Header */
+    .site-header {
+      margin-bottom: 16px;
+    }
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .site-title {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .pray-btn {
+      background: var(--danger);
+      color: #ffffff;
+      border: none;
+      padding: 12px 26px;
+      font: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pray-btn:hover { background: var(--danger-hover); }
+    .pray-btn.playing { background: #991b1b; }
+
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nav-btn {
+      background: var(--surface);
+      color: var(--text);
+      border: none;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav-btn:hover { background: var(--hover); }
+    .nav-btn.active {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+
+    /* Surfaces */
+    .panel {
+      background: var(--card);
+      padding: 14px 16px;
+    }
+    .subpanel {
+      background: var(--surface);
+      padding: 10px 12px;
+    }
+
+    h2 { margin: 0; font-size: 15px; font-weight: 700; }
+
+    /* Buttons & Inputs */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .btn:hover:not(:disabled) { background: var(--hover); }
+    .btn:disabled {
+      color: var(--muted);
+      background: var(--bg);
+      cursor: not-allowed;
+    }
+    .btn-sm { padding: 5px 10px; font-size: 12.5px; }
+    .btn-primary,
+    .btn.is-active {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+    .btn-primary:hover:not(:disabled),
+    .btn.is-active:hover:not(:disabled) {
+      background: var(--primary);
+      color: var(--primary-fg);
+    }
+    .btn-done {
+      background: var(--success-bg);
+      color: var(--success-fg);
+    }
+    .btn-done:hover:not(:disabled) {
+      background: var(--success-bg);
+      color: var(--success-fg);
+    }
+    .btn-nerd-active {
+      background: var(--nerd-bg);
+      color: var(--nerd-fg);
+    }
+
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      padding: 7px 10px;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
+    input:focus, select:focus {
+      outline: 2px solid var(--text);
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--text);
+      cursor: pointer;
+    }
+
+    /* Accordion */
+    .acc-item {
+      background: var(--card);
+    }
+    .acc-item + .acc-item {
+      margin-top: 6px;
+    }
+    .acc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .acc-head:hover { background: var(--surface); }
+    .acc-title-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .acc-title { font-weight: 700; font-size: 14px; }
+    .acc-formula { font-size: 13px; color: var(--muted); }
+    .acc-body {
+      padding: 10px 14px 14px;
+      background: var(--surface);
+      font-size: 13px;
+    }
+
+    /* Grids & Tables */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+    .grid-4 > div {
+      background: var(--surface);
+      padding: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+    th {
+      background: var(--surface);
+      font-weight: 700;
+    }
+    tbody tr:nth-child(even) td {
+      background: var(--bg);
+    }
+    .clickable-row { cursor: pointer; }
+    .clickable-row:hover td { background: var(--surface); }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13.5px;
+      user-select: none;
+    }
+
+    /* Progress bar */
+    .track { height: 4px; background: var(--surface); overflow: hidden; }
+    .fill { height: 100%; background: var(--primary); transition: width 0.2s ease; }
+
+    /* Flashcards */
+    .fc-box {
+      min-height: 190px;
+      background: var(--card);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .fc-box.showing-answer {
+      background: var(--surface);
+    }
+    .fc-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .fc-body { margin: auto 0; padding: 14px 0; text-align: center; }
+    .fc-q { font-size: 17px; font-weight: 700; }
+    .fc-a { font-size: 16px; font-weight: 700; }
+    .fc-hint { margin-top: 8px; font-size: 13px; color: var(--muted); }
+
+    /* Quiz */
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      padding: 10px 12px;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .opt-btn:hover:not(:disabled) { background: var(--hover); }
+    .opt-btn:disabled { cursor: default; }
+    .opt-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      background: var(--card);
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .opt-ok { background: var(--success-bg) !important; color: var(--success-fg) !important; font-weight: 700; }
+    .opt-err { background: var(--error-bg) !important; color: var(--error-fg) !important; }
+    .opt-dim { color: var(--muted); }
+
+    .feedback-box {
+      background: var(--surface);
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+    .feedback-box.ok { background: var(--success-bg); color: var(--success-fg); }
+    .feedback-box.err { background: var(--error-bg); color: var(--error-fg); }
+
+    /* Minigames */
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .match-col { display: flex; flex-direction: column; gap: 6px; }
+    .match-tile {
+      width: 100%;
+      text-align: left;
+      padding: 8px 10px;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 12.5px;
+      cursor: pointer;
+    }
+    .match-tile:hover:not(:disabled) { background: var(--hover); }
+    .match-tile.selected { background: var(--primary); color: var(--primary-fg); font-weight: 700; }
+    .match-tile.matched { background: var(--success-bg); color: var(--success-fg); cursor: default; }
+
+    .step-btn {
+      width: 100%;
+      text-align: left;
+      padding: 8px 10px;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .step-btn:hover:not(:disabled) { background: var(--hover); }
+    .step-btn.selected { background: var(--primary); color: var(--primary-fg); font-weight: 700; }
+    .step-btn.ok { background: var(--success-bg); color: var(--success-fg); }
+    .step-btn.err { background: var(--error-bg); color: var(--error-fg); }
+
+    .inline-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .inline-input-row input { width: 160px; }
+
+    /* Snake */
+    .snake-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    #snakeCanvas {
+      background: var(--surface);
+      display: block;
+      max-width: 100%;
+    }
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 64px);
+      gap: 4px;
+    }
+    .dpad-empty { visibility: hidden; }
+
+    /* Tower */
+    .tower-floors {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+    .tower-floor {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--surface);
+      font-size: 13px;
+    }
+    .tower-floor.current { background: var(--primary); color: var(--primary-fg); font-weight: 700; }
+    .tower-floor.cleared { background: var(--success-bg); color: var(--success-fg); }
+
+    /* Simulator */
+    .sim-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 680px) { .sim-grid { grid-template-columns: 240px 1fr; align-items: start; } }
+    .sim-bar-track { height: 6px; background: var(--surface); overflow: hidden; }
+    .sim-bar-fill { height: 100%; transition: width 0.1s linear; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <div class="header-top">
+        <div class="bar-group">
+          <h1 class="site-title">Fysik 1b Energi</h1>
+          <button id="prayBtn" class="pray-btn">be och böna</button>
+          <audio id="havaAudio" src="hava-nagila.mp3" preload="auto" loop></audio>
+        </div>
+        <div class="bar-group">
+          <div id="diffGroup" class="bar-group" role="group" aria-label="Svårighetsgrad">
+            <button class="btn btn-sm diff-btn" data-diff="easy">Lätt</button>
+            <button class="btn btn-sm diff-btn is-active" data-diff="medium">Medel</button>
+            <button class="btn btn-sm diff-btn" data-diff="hard">Svår</button>
+          </div>
+          <button id="nerdToggle" class="btn btn-sm" aria-pressed="false">Nördläge Av</button>
+          <button id="themeToggle" class="btn btn-sm">Mörkt läge</button>
+          <button id="resetAllBtn" class="btn btn-sm">Nollställ</button>
+        </div>
+      </div>
+
+      <nav class="tab-nav" role="tablist" aria-label="Plugglägen">
+        <button class="nav-btn active" data-tab="guide">Teori</button>
+        <button class="nav-btn" data-tab="formulas">Formler</button>
+        <button class="nav-btn" data-tab="flashcards">Kort</button>
+        <button class="nav-btn" data-tab="quiz">Quiz</button>
+        <button class="nav-btn" data-tab="games">Spel</button>
+        <button class="nav-btn" data-tab="sim">Simulator</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- TEORI -->
+      <section id="tab-guide" class="stack">
+        <div class="row-between">
+          <div class="bar-group" id="teoriViewBtns">
+            <button class="btn btn-sm is-active" data-view="sections">Alla avsnitt</button>
+            <button class="btn btn-sm" data-view="traps">Provfällor</button>
+            <button class="btn btn-sm" data-view="overview">Översiktstabell</button>
+          </div>
+          <div class="bar-group">
+            <button id="toggleAllAccBtn" class="btn btn-sm">Öppna alla</button>
+            <button id="goToQuizTop" class="btn btn-sm btn-primary">Till Quiz</button>
+          </div>
+        </div>
+
+        <div id="teoriSectionsView"></div>
+
+        <div id="teoriTrapsView" class="panel stack-sm hidden">
+          <h2>Vanliga provfällor</h2>
+          <div class="grid-2">
+            <div class="subpanel"><strong>Fart i km/h till m/s:</strong> Dela alltid med 3,6 före E_k. Exempel: 72 km/h = 20 m/s.</div>
+            <div class="subpanel"><strong>Kvadrerad fart:</strong> Dubbel fart ger 4 gånger större rörelseenergi eftersom farten är i kvadrat.</div>
+            <div class="subpanel"><strong>Tyngdfaktorn g:</strong> Använd g = 9,82 N/kg i alla beräkningar.</div>
+            <div class="subpanel"><strong>Prefix kJ till J:</strong> 1 kJ = 1 000 J. Gör om kilojoule till joule före insättning.</div>
+            <div class="subpanel"><strong>Saknad massa m:</strong> Utan friktion förkortas m bort: v2 = roten ur (2 · g · h1).</div>
+            <div class="subpanel"><strong>Nollnivå:</strong> Välj marken eller dalens botten där h = 0 m och Ep = 0 J.</div>
+            <div class="subpanel"><strong>Med friktion:</strong> Mekanisk energi minskar och förlusten blir värme (Wf).</div>
+            <div class="subpanel"><strong>Verkningsgrad:</strong> Saknar enhet. Svaret ligger mellan 0 och 1 (eller 0 till 100 %).</div>
+            <div class="subpanel"><strong>Kraft i Newton:</strong> Gångra inte med 9,82 igen om tyngden redan står i N. Använd W = F · s.</div>
+            <div class="subpanel"><strong>Energiprincipen:</strong> Energi kan aldrig skapas eller förstöras, bara omvandlas.</div>
+          </div>
+        </div>
+
+        <div id="teoriOverviewView" class="panel hidden" style="padding:0;overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Område</th>
+                <th>Formel</th>
+                <th>Kärnpunkt</th>
+              </tr>
+            </thead>
+            <tbody id="overviewTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FORMLER -->
+      <section id="tab-formulas" class="stack hidden">
+        <div class="grid-2">
+          <div class="panel stack-sm">
+            <h2>Enhetsomvandlare</h2>
+            <div style="display:flex;gap:8px;align-items:end;">
+              <div style="flex:1;">
+                <label class="muted" style="font-size:12px;" for="convKmh">km/h (dela med 3,6)</label>
+                <input id="convKmh" type="number" step="any" value="72" />
+              </div>
+              <div style="flex:1;">
+                <label class="muted" style="font-size:12px;" for="convMs">m/s (gångra med 3,6)</label>
+                <input id="convMs" type="number" step="any" value="20" />
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:end;">
+              <div style="flex:1;">
+                <label class="muted" style="font-size:12px;" for="convKj">kJ (gångra med 1 000)</label>
+                <input id="convKj" type="number" step="any" value="8.5" />
+              </div>
+              <div style="flex:1;">
+                <label class="muted" style="font-size:12px;" for="convJ">J (dela med 1 000)</label>
+                <input id="convJ" type="number" step="any" value="8500" />
+              </div>
+            </div>
+          </div>
+
+          <div class="panel stack-sm">
+            <h2>Snabbräknare</h2>
+            <select id="calcType" aria-label="Välj beräkning">
+              <option value="work">Arbete: W = F · s</option>
+              <option value="ep">Lägesenergi: Ep = m · g · h</option>
+              <option value="ek">Rörelseenergi: Ek = (m · v²) / 2</option>
+              <option value="vfree">Fart i dalen: v2 = roten ur (2 · g · h1)</option>
+              <option value="eta">Verkningsgrad: eta = E_nyttig / E_tillförd</option>
+            </select>
+            <div id="calcInputs" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+            <div id="calcOutput" class="subpanel" style="font-size:13px;"></div>
+          </div>
+        </div>
+
+        <div class="panel" style="padding:0;overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Område</th>
+                <th>Formel</th>
+                <th>Enkelt sagt</th>
+                <th class="nerd-only">Omskrivningar och härledning</th>
+              </tr>
+            </thead>
+            <tbody id="formulaTableBody"></tbody>
+          </table>
+        </div>
+
+        <details class="panel">
+          <summary>Symboler och enheter</summary>
+          <div style="margin-top:8px;overflow-x:auto;">
+            <table>
+              <thead>
+                <tr><th>Symbol</th><th>Betydelse</th><th>Enhet</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>W, E</strong></td><td>Arbete eller energi (1 J = 1 Nm)</td><td>J (Joule)</td></tr>
+                <tr><td><strong>F</strong></td><td>Kraft i rörelseriktningen</td><td>N (Newton)</td></tr>
+                <tr><td><strong>Ep</strong></td><td>Potentiell energi (lägesenergi)</td><td>J (Joule)</td></tr>
+                <tr><td><strong>Ek</strong></td><td>Kinetisk energi (rörelseenergi)</td><td>J (Joule)</td></tr>
+                <tr><td><strong>Emek</strong></td><td>Total mekanisk energi (Ep + Ek)</td><td>J (Joule)</td></tr>
+                <tr><td><strong>Wf</strong></td><td>Friktionsarbete (värmeförlust)</td><td>J (Joule)</td></tr>
+                <tr><td><strong>m</strong></td><td>Massa</td><td>kg</td></tr>
+                <tr><td><strong>g</strong></td><td>Tyngdfaktor</td><td>9,82 N/kg</td></tr>
+                <tr><td><strong>h</strong></td><td>Höjd över vald nollnivå</td><td>m</td></tr>
+                <tr><td><strong>v</strong></td><td>Fart</td><td>m/s</td></tr>
+                <tr><td><strong>Ff, s</strong></td><td>Friktionskraft och glidsträcka</td><td>N och m</td></tr>
+                <tr><td><strong>eta</strong></td><td>Verkningsgrad</td><td>Ingen enhet (0 till 1 eller %)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <!-- KORT -->
+      <section id="tab-flashcards" class="stack hidden">
+        <div class="row-between">
+          <div class="bar-group">
+            <button id="fcFilterAll" class="btn btn-sm is-active">Alla kort (17)</button>
+            <button id="fcFilterTodo" class="btn btn-sm">Oklara (<span id="fcTodoCount">17</span>)</button>
+            <button id="fcShuffle" class="btn btn-sm">Blanda</button>
+          </div>
+          <span id="fcProgress" class="muted" style="font-size:12.5px;">Kort 1 av 17</span>
+        </div>
+
+        <div id="fcCard" class="fc-box" role="button" tabindex="0" aria-label="Växla fråga och svar">
+          <div class="fc-top">
+            <span id="fcTopic" style="font-weight:700;"></span>
+            <span id="fcSideLabel"></span>
+          </div>
+          <div id="fcBody" class="fc-body"></div>
+          <div id="fcFooterNote" class="muted" style="font-size:12px;text-align:center;"></div>
+        </div>
+
+        <div class="row-between">
+          <div class="bar-group">
+            <button id="fcPrev" class="btn btn-sm">Föregående</button>
+            <button id="fcNext" class="btn btn-sm">Nästa</button>
+          </div>
+          <div class="bar-group">
+            <button id="fcMarkReview" class="btn btn-sm">Repetera</button>
+            <button id="fcMarkKnown" class="btn btn-sm btn-primary">Kan kortet</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ -->
+      <section id="tab-quiz" class="stack hidden">
+        <div class="row-between">
+          <div class="bar-group">
+            <button class="btn btn-sm quiz-mode-btn is-active" data-mode="all">Alla (20)</button>
+            <button class="btn btn-sm quiz-mode-btn" data-mode="theory">Teori (10)</button>
+            <button class="btn btn-sm quiz-mode-btn" data-mode="calc">Räkning (10)</button>
+            <button id="quizWrongBtn" class="btn btn-sm quiz-mode-btn hidden" data-mode="wrong">
+              Endast fel (<span id="quizWrongCount">0</span>)
+            </button>
+          </div>
+          <button id="quizResetBtn" class="btn btn-sm">Börja om</button>
+        </div>
+
+        <div class="panel stack">
+          <div id="quizActiveArea" class="stack">
+            <div class="row-between muted" style="font-size:12.5px;">
+              <span id="quizMeta">Fråga 1 av 20</span>
+              <span id="quizLiveScore">0 av 0 rätt</span>
+            </div>
+            <div class="track"><div id="quizBar" class="fill" style="width:0%;"></div></div>
+
+            <div class="subpanel stack-sm">
+              <div class="row-between">
+                <span id="quizCategory" class="muted" style="font-size:12px;font-weight:700;"></span>
+                <button id="quizHintToggle" class="btn btn-sm">Visa ledtråd</button>
+              </div>
+              <div id="quizQuestion" style="font-size:15px;font-weight:700;"></div>
+              <div id="quizHintBox" class="muted hidden" style="font-size:12.5px;"></div>
+            </div>
+
+            <div id="quizOptions" class="stack-sm"></div>
+
+            <div id="quizFeedback" class="feedback-box hidden">
+              <div id="quizFeedbackTitle" style="font-weight:700;margin-bottom:2px;"></div>
+              <div id="quizFeedbackText"></div>
+              <div id="quizFeedbackNerd" class="nerd-block nerd-only"></div>
+            </div>
+
+            <div class="row-between">
+              <button id="quizPrevBtn" class="btn btn-sm" disabled>Föregående</button>
+              <button id="quizNextBtn" class="btn btn-sm btn-primary">Nästa fråga</button>
+            </div>
+          </div>
+
+          <div id="quizSummaryArea" class="stack hidden">
+            <div class="subpanel">
+              <div id="summaryScoreBig" style="font-size:22px;font-weight:700;"></div>
+              <div id="summaryMessage" class="muted"></div>
+            </div>
+            <div id="summaryBreakdown" class="grid-2"></div>
+            <div class="bar-group">
+              <button id="summaryRetryWrong" class="btn btn-sm hidden">Träna på felen</button>
+              <button id="summaryRestart" class="btn btn-sm btn-primary">Gör om quiz</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPEL -->
+      <section id="tab-games" class="stack hidden">
+        <div class="row-between">
+          <div class="bar-group" id="gameSelectorBar">
+            <button class="btn btn-sm game-tab-btn is-active" data-game="snake">Ormen</button>
+            <button class="btn btn-sm game-tab-btn" data-game="gates">Portvalet</button>
+            <button class="btn btn-sm game-tab-btn" data-game="pins">Dragpinnen</button>
+            <button class="btn btn-sm game-tab-btn" data-game="tower">Tornet</button>
+            <button class="btn btn-sm game-tab-btn" data-game="coaster">Fartkontrollen</button>
+            <button class="btn btn-sm game-tab-btn" data-game="match">Koppla begrepp</button>
+            <button class="btn btn-sm game-tab-btn" data-game="sprint">Snabbräkning</button>
+            <button class="btn btn-sm game-tab-btn" data-game="detective">Energidetektiven</button>
+            <button class="btn btn-sm game-tab-btn" data-game="grader">Rätta provet</button>
+          </div>
+          <span id="gamesDoneBadge" class="muted" style="font-size:12.5px;">0 av 9 klara</span>
+        </div>
+
+        <!-- ORMEN (SNAKE) -->
+        <div id="game-snake" class="panel stack">
+          <div class="row-between">
+            <div>
+              <h2>Ormen</h2>
+              <div class="muted" style="font-size:12.5px;">Styr ormen till blocket med rätt svar. Använd piltangenterna, WASD eller knapparna.</div>
+            </div>
+            <div style="font-size:13px;font-weight:700;">
+              Poäng: <span id="snakeScore">0</span> / <span id="snakeTarget">8</span>
+            </div>
+          </div>
+          <div id="snakeQuestionBox" class="subpanel stack-sm">
+            <div id="snakeQuestionText" style="font-weight:700;">Tryck på Starta för att börja spela</div>
+            <div id="snakeLegend" class="grid-2" style="font-size:12.5px;"></div>
+          </div>
+          <div class="snake-wrap">
+            <canvas id="snakeCanvas" width="440" height="280"></canvas>
+            <div class="stack-sm">
+              <div class="bar-group">
+                <button id="snakeStartBtn" class="btn btn-sm btn-primary">Starta</button>
+              </div>
+              <div class="dpad" aria-label="Styrning för ormen">
+                <span class="dpad-empty"></span>
+                <button class="btn btn-sm snake-dir-btn" data-dir="up">Upp</button>
+                <span class="dpad-empty"></span>
+                <button class="btn btn-sm snake-dir-btn" data-dir="left">Vänster</button>
+                <button class="btn btn-sm snake-dir-btn" data-dir="down">Ner</button>
+                <button class="btn btn-sm snake-dir-btn" data-dir="right">Höger</button>
+              </div>
+              <div id="snakeNerdBox" class="nerd-block nerd-only"></div>
+            </div>
+          </div>
+          <div id="snakeFeedback" class="feedback-box hidden"></div>
+        </div>
+
+        <!-- PORTVALET (GATE RUNNER) -->
+        <div id="game-gates" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Portvalet</h2>
+              <div class="muted" style="font-size:12.5px;">Spring genom rätt port för att dubbla energin och slå ner slutväggen på 2 000 J.</div>
+            </div>
+            <div style="font-size:13px;font-weight:700;">
+              <span id="gatesWaveBadge">Våg 1 av 6</span> | Energi: <span id="gatesEnergy">100</span> J
+            </div>
+          </div>
+          <div class="subpanel" style="padding:8px;">
+            <svg id="gatesSvg" viewBox="0 0 460 110" style="width:100%;height:105px;display:block;">
+              <rect x="0" y="0" width="460" height="110" fill="var(--surface)" />
+              <rect x="20" y="45" width="380" height="20" fill="var(--bg)" />
+              <rect x="410" y="15" width="24" height="80" fill="var(--danger)" />
+              <text x="415" y="106" font-size="10" fill="var(--text)">2 000 J</text>
+              <rect id="gatesRunner" x="28" y="42" width="22" height="26" fill="var(--primary)" />
+            </svg>
+          </div>
+          <div id="gatesQuestion" class="subpanel" style="font-weight:700;"></div>
+          <div id="gatesButtons" class="grid-2"></div>
+          <div id="gatesNerdBox" class="nerd-block nerd-only"></div>
+          <div id="gatesFeedback" class="feedback-box hidden"></div>
+          <div>
+            <button id="gatesRestartBtn" class="btn btn-sm">Börja om</button>
+          </div>
+        </div>
+
+        <!-- DRAGPINNEN (PULL THE PIN) -->
+        <div id="game-pins" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Dragpinnen</h2>
+              <div class="muted" style="font-size:12.5px;">Dra ut sprinten som hör till rätt svar så lägesenergin når vagnen i stället för friktionsvärmen.</div>
+            </div>
+            <span id="pinsBadge" style="font-size:13px;font-weight:700;">Uppgift 1 av 5</span>
+          </div>
+          <div class="subpanel" style="padding:8px;">
+            <svg viewBox="0 0 460 140" style="width:100%;height:130px;display:block;">
+              <rect x="40" y="10" width="110" height="40" fill="#eab308" />
+              <text x="50" y="34" font-size="11" fill="#111827">Lägesenergi</text>
+              <rect x="310" y="10" width="110" height="40" fill="#dc2626" />
+              <text x="320" y="34" font-size="11" fill="#ffffff">Värmeförlust</text>
+              <rect id="pinBar0" x="40" y="54" width="110" height="8" fill="var(--text)" />
+              <rect id="pinBar1" x="175" y="54" width="110" height="8" fill="var(--text)" />
+              <rect id="pinBar2" x="310" y="54" width="110" height="8" fill="var(--text)" />
+              <rect id="pinResultFlow" x="200" y="64" width="60" height="0" fill="#eab308" />
+              <rect x="180" y="104" width="100" height="24" fill="var(--primary)" />
+              <text x="206" y="120" font-size="11" fill="var(--primary-fg)">Vagn</text>
+            </svg>
+          </div>
+          <div id="pinsQuestion" class="subpanel" style="font-weight:700;"></div>
+          <div id="pinsOptions" class="stack-sm"></div>
+          <div id="pinsNerdBox" class="nerd-block nerd-only"></div>
+          <div id="pinsFeedback" class="feedback-box hidden"></div>
+          <div class="bar-group">
+            <button id="pinsNextBtn" class="btn btn-sm btn-primary hidden">Nästa</button>
+            <button id="pinsRetryBtn" class="btn btn-sm hidden">Försök igen</button>
+          </div>
+        </div>
+
+        <!-- TORNET (HERO TOWER) -->
+        <div id="game-tower" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Tornet</h2>
+              <div class="muted" style="font-size:12.5px;">Öppna kistan med rätt svar för att få mer energi än våningens vakt.</div>
+            </div>
+            <div style="font-size:13px;font-weight:700;">
+              Din energi: <span id="towerHeroPow">100</span> J
+            </div>
+          </div>
+          <div id="towerFloors" class="tower-floors"></div>
+          <div id="towerQuestionBox" class="subpanel stack-sm">
+            <div id="towerQuestion" style="font-weight:700;"></div>
+            <div id="towerChests" class="grid-2"></div>
+          </div>
+          <div id="towerNerdBox" class="nerd-block nerd-only"></div>
+          <div id="towerFeedback" class="feedback-box hidden"></div>
+          <div>
+            <button id="towerRestartBtn" class="btn btn-sm">Börja om tornet</button>
+          </div>
+        </div>
+
+        <!-- FARTKONTROLLEN -->
+        <div id="game-coaster" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Fartkontrollen</h2>
+              <div class="muted" style="font-size:12.5px;">Räkna ut rätt värde för att vagnen ska nå målet.</div>
+            </div>
+            <span id="g1LevelBadge" style="font-size:13px;font-weight:700;">Bana 1 av 5</span>
+          </div>
+          <div class="subpanel" style="padding:8px;">
+            <svg viewBox="0 0 500 110" style="width:100%;height:100px;display:block;">
+              <line x1="25" y1="92" x2="475" y2="92" stroke="var(--muted)" stroke-width="1" />
+              <path d="M 35 20 C 160 20, 220 92, 455 92" fill="none" stroke="var(--text)" stroke-width="2" />
+              <g id="g1Cart" transform="translate(35,20)">
+                <rect x="-8" y="-12" width="16" height="10" fill="var(--text)" />
+              </g>
+            </svg>
+          </div>
+          <div id="g1Prompt" style="font-weight:700;"></div>
+          <div id="g1NerdBox" class="nerd-block nerd-only"></div>
+          <div class="inline-input-row">
+            <input id="g1Input" type="text" inputmode="decimal" placeholder="Ditt svar" aria-label="Svar för Fartkontrollen" />
+            <span id="g1Unit" class="muted"></span>
+            <button id="g1Submit" class="btn btn-sm btn-primary">Kör vagn</button>
+            <button id="g1NextBtn" class="btn btn-sm hidden">Nästa</button>
+          </div>
+          <div id="g1Feedback" class="feedback-box hidden"></div>
+        </div>
+
+        <!-- KOPPLA BEGREPP -->
+        <div id="game-match" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Koppla begrepp</h2>
+              <div class="muted" style="font-size:12.5px;">Välj ett kort till vänster och matcha med rätt kort till höger.</div>
+            </div>
+            <div style="font-size:13px;">
+              <span id="g2RoundBadge">Omgång 1 av 3</span> | <span id="g2Timer">0,0 s</span> | Fel: <span id="g2Errors">0</span>
+            </div>
+          </div>
+          <div class="match-grid">
+            <div id="g2LeftCol" class="match-col"></div>
+            <div id="g2RightCol" class="match-col"></div>
+          </div>
+          <div id="g2Feedback" class="feedback-box hidden"></div>
+          <div class="bar-group">
+            <button id="g2NextRound" class="btn btn-sm btn-primary hidden">Nästa omgång</button>
+            <button id="g2Restart" class="btn btn-sm">Starta om</button>
+          </div>
+        </div>
+
+        <!-- SNABBRÄKNING -->
+        <div id="game-sprint" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Snabbräkning</h2>
+              <div class="muted" style="font-size:12.5px;">Klara målet innan tiden tar slut.</div>
+            </div>
+            <div style="font-size:13px;font-weight:700;">
+              Tid: <span id="g3Time">60</span> s | Rätt: <span id="g3Score">0</span>/<span id="g3Target">8</span> | Svit: <span id="g3Streak">0</span>
+            </div>
+          </div>
+          <div id="g3IdleArea" class="subpanel row-between">
+            <span>Blandade omvandlingar och snabbmatte (km/h, kJ, W, Ek, Ep, eta).</span>
+            <button id="g3StartBtn" class="btn btn-sm btn-primary">Starta</button>
+          </div>
+          <div id="g3PlayArea" class="stack hidden">
+            <div id="g3Question" class="subpanel" style="font-size:15px;font-weight:700;"></div>
+            <div id="g3Hint" class="nerd-block nerd-only"></div>
+            <div class="inline-input-row">
+              <input id="g3Input" type="text" inputmode="decimal" placeholder="Tal" aria-label="Svar för Snabbräkning" />
+              <span id="g3Unit" class="muted"></span>
+              <button id="g3Submit" class="btn btn-sm btn-primary">Svara</button>
+            </div>
+            <div id="g3Feedback" class="feedback-box hidden"></div>
+          </div>
+          <div id="g3DoneArea" class="feedback-box hidden"></div>
+        </div>
+
+        <!-- ENERGIDETEKTIVEN -->
+        <div id="game-detective" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Energidetektiven</h2>
+              <div class="muted" style="font-size:12.5px;">Räkna ut det saknade värdet i energibalansen.</div>
+            </div>
+            <span id="g4Badge" style="font-size:13px;font-weight:700;">Fall 1 av 5</span>
+          </div>
+          <div id="g4Scenario" style="font-weight:700;"></div>
+          <div id="g4Table" class="grid-4"></div>
+          <div id="g4NerdBox" class="nerd-block nerd-only"></div>
+          <div class="inline-input-row">
+            <input id="g4Input" type="text" inputmode="decimal" placeholder="Saknat värde" aria-label="Saknat värde" />
+            <span id="g4Unit" class="muted"></span>
+            <button id="g4Submit" class="btn btn-sm btn-primary">Kontrollera</button>
+            <button id="g4NextBtn" class="btn btn-sm hidden">Nästa</button>
+          </div>
+          <div id="g4Feedback" class="feedback-box hidden"></div>
+        </div>
+
+        <!-- RÄTTA PROVET -->
+        <div id="game-grader" class="panel stack hidden">
+          <div class="row-between">
+            <div>
+              <h2>Rätta provet</h2>
+              <div class="muted" style="font-size:12.5px;">Välj det felaktiga steget och skriv in rätt slutsvar.</div>
+            </div>
+            <span id="g5Badge" style="font-size:13px;font-weight:700;">Uppgift 1 av 5</span>
+          </div>
+          <div id="g5Problem" class="subpanel" style="font-weight:700;"></div>
+          <div class="stack-sm">
+            <div class="muted" style="font-size:12.5px;">Klicka på det felaktiga steget:</div>
+            <div id="g5Steps" class="stack-sm"></div>
+          </div>
+          <div id="g5NerdBox" class="nerd-block nerd-only"></div>
+          <div class="stack-sm">
+            <div class="muted" style="font-size:12.5px;">Ange rätt slutsvar:</div>
+            <div class="inline-input-row">
+              <input id="g5Input" type="text" inputmode="decimal" placeholder="Rätt svar" aria-label="Rätt slutsvar" />
+              <span id="g5Unit" class="muted"></span>
+              <button id="g5Submit" class="btn btn-sm btn-primary">Rätta</button>
+              <button id="g5NextBtn" class="btn btn-sm hidden">Nästa</button>
+            </div>
+          </div>
+          <div id="g5Feedback" class="feedback-box hidden"></div>
+        </div>
+      </section>
+
+      <!-- SIMULATOR -->
+      <section id="tab-sim" class="stack hidden">
+        <div class="row-between">
+          <div class="bar-group">
+            <button id="presetCoaster" class="btn btn-sm">Berg- och dalbana (24 m)</button>
+            <button id="presetSled" class="btn btn-sm">Pulka med friktion (45 kg, 8 m)</button>
+          </div>
+          <div class="bar-group">
+            <button id="simModeNoFric" class="btn btn-sm is-active">Utan friktion</button>
+            <button id="simModeFric" class="btn btn-sm">Med friktion</button>
+          </div>
+        </div>
+
+        <div class="panel sim-grid">
+          <div class="subpanel stack-sm">
+            <div>
+              <div class="row-between" style="font-size:12.5px;">
+                <label for="simPos"><strong>Position</strong></label>
+                <span id="simPosVal">40 %</span>
+              </div>
+              <input id="simPos" type="range" min="0" max="100" value="40" />
+              <div style="display:flex;gap:4px;margin-top:4px;">
+                <button class="btn btn-sm sim-jump" data-pos="0" style="flex:1;">Toppen</button>
+                <button class="btn btn-sm sim-jump" data-pos="50" style="flex:1;">Mitten</button>
+                <button class="btn btn-sm sim-jump" data-pos="100" style="flex:1;">Dalen</button>
+              </div>
+            </div>
+            <div>
+              <div class="row-between" style="font-size:12.5px;">
+                <label for="simH"><strong>Starthöjd h1</strong></label>
+                <span id="simHVal">24 m</span>
+              </div>
+              <input id="simH" type="range" min="4" max="40" value="24" />
+            </div>
+            <div>
+              <div class="row-between" style="font-size:12.5px;">
+                <label for="simM"><strong>Massa m</strong></label>
+                <span id="simMVal">50 kg</span>
+              </div>
+              <input id="simM" type="range" min="10" max="120" value="50" />
+            </div>
+            <div id="simFricControl" class="hidden">
+              <div class="row-between" style="font-size:12.5px;">
+                <label for="simFricPct"><strong>Friktionsförlust</strong></label>
+                <span id="simFricVal">42,6 %</span>
+              </div>
+              <input id="simFricPct" type="range" min="5" max="60" step="0.2" value="42.6" />
+            </div>
+            <div id="simInsight" class="muted" style="font-size:12.5px;"></div>
+          </div>
+
+          <div class="stack">
+            <div class="subpanel" style="padding:8px;">
+              <svg viewBox="0 0 500 155" style="width:100%;height:140px;display:block;">
+                <line x1="30" y1="134" x2="470" y2="134" stroke="var(--muted)" stroke-width="1" />
+                <text x="35" y="149" font-size="11" fill="var(--muted)">Nollnivå h = 0 m</text>
+                <path id="simSlopeArea" d="" fill="var(--card)" />
+                <path id="simSlopePath" d="" fill="none" stroke="var(--text)" stroke-width="2" />
+                <text id="simHeightLabel" x="48" y="80" font-size="11" fill="var(--muted)">h1</text>
+                <g id="simCart" transform="translate(40,22)">
+                  <rect x="-7" y="-11" width="14" height="10" fill="var(--text)" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="grid-4">
+              <div><div class="muted" style="font-size:12px;">Höjd (h)</div><div id="readH" style="font-weight:700;"></div></div>
+              <div><div class="muted" style="font-size:12px;">Fart (v)</div><div id="readV" style="font-weight:700;"></div><div id="readVKmh" class="muted" style="font-size:12px;"></div></div>
+              <div><div class="muted" style="font-size:12px;">Mekanisk energi</div><div id="readEmek" style="font-weight:700;"></div></div>
+              <div><div class="muted" style="font-size:12px;">Startenergi</div><div id="readEtot" style="font-weight:700;"></div></div>
+            </div>
+
+            <div class="subpanel stack-sm" style="font-size:12.5px;">
+              <div>
+                <div class="row-between" style="margin-bottom:3px;"><span>Ep (Lägesenergi)</span><span id="barEpText"></span></div>
+                <div class="sim-bar-track"><div id="barEp" class="sim-bar-fill" style="background:var(--c-ep);"></div></div>
+              </div>
+              <div>
+                <div class="row-between" style="margin-bottom:3px;"><span>Ek (Rörelseenergi)</span><span id="barEkText"></span></div>
+                <div class="sim-bar-track"><div id="barEk" class="sim-bar-fill" style="background:var(--c-ek);"></div></div>
+              </div>
+              <div>
+                <div class="row-between" style="margin-bottom:3px;"><span>Wf (Värme)</span><span id="barWfText"></span></div>
+                <div class="sim-bar-track"><div id="barWf" class="sim-bar-fill" style="background:var(--c-wf);"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ---------- LAGRING ----------
+    const STORE_KEY = "fysik1b_energi_state_v5";
+    const LEGACY_KEY = "fysik1b_energi_state_v4";
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY) || localStorage.getItem(LEGACY_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch { return {}; }
+    }
+    const saved = loadState();
+    let isNerdMode = Boolean(saved.nerd);
+    let difficulty = ["easy", "medium", "hard"].includes(saved.difficulty) ? saved.difficulty : "medium";
+    const readSections = new Set(Array.isArray(saved.read) ? saved.read : []);
+    const knownSet = new Set(Array.isArray(saved.known) ? saved.known : []);
+    const answersById = saved.answers && typeof saved.answers === "object" ? saved.answers : {};
+    const completedGames = new Set(Array.isArray(saved.games) ? saved.games : []);
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify({
+          theme: document.documentElement.getAttribute("data-theme") || "light",
+          nerd: isNerdMode,
+          difficulty,
+          read: [...readSections],
+          known: [...knownSet],
+          answers: answersById,
+          games: [...completedGames]
+        }));
+      } catch {}
+    }
+
+    // ---------- BE OCH BÖNA (HAVA NAGILA) ----------
+    const prayBtn = document.getElementById("prayBtn");
+    const havaAudio = document.getElementById("havaAudio");
+    let isPraying = false;
+    let fallbackAudioTimer = null;
+    let fallbackAudioCtx = null;
+
+    function stopHavaFallback() {
+      if (fallbackAudioTimer) { clearInterval(fallbackAudioTimer); fallbackAudioTimer = null; }
+      if (fallbackAudioCtx && fallbackAudioCtx.close) {
+        try { fallbackAudioCtx.close(); } catch {}
+        fallbackAudioCtx = null;
+      }
+    }
+
+    function startHavaFallback() {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      stopHavaFallback();
+      try {
+        fallbackAudioCtx = new AC();
+        // Hava Nagila E Phrygian dominant motif (Hz)
+        const notes = [329.63, 329.63, 415.30, 349.23, 329.63, 415.30, 349.23, 329.63, 415.30, 440.00, 392.00, 349.23, 329.63];
+        let step = 0;
+        const playStep = () => {
+          if (!isPraying || !fallbackAudioCtx) return;
+          const osc = fallbackAudioCtx.createOscillator();
+          const gain = fallbackAudioCtx.createGain();
+          osc.type = "triangle";
+          osc.frequency.value = notes[step % notes.length];
+          gain.gain.setValueAtTime(0.12, fallbackAudioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, fallbackAudioCtx.currentTime + 0.24);
+          osc.connect(gain);
+          gain.connect(fallbackAudioCtx.destination);
+          osc.start();
+          osc.stop(fallbackAudioCtx.currentTime + 0.25);
+          step++;
+        };
+        playStep();
+        fallbackAudioTimer = setInterval(playStep, 280);
+      } catch {}
+    }
+
+    function setPrayState(active) {
+      isPraying = active;
+      prayBtn.classList.toggle("playing", active);
+      prayBtn.textContent = active ? "be och böna (spelar)" : "be och böna";
+    }
+
+    prayBtn.addEventListener("click", () => {
+      if (isPraying) {
+        if (havaAudio && typeof havaAudio.pause === "function") {
+          try { havaAudio.pause(); havaAudio.currentTime = 0; } catch {}
+        }
+        stopHavaFallback();
+        setPrayState(false);
+      } else {
+        setPrayState(true);
+        if (havaAudio && typeof havaAudio.play === "function") {
+          try {
+            const p = havaAudio.play();
+            if (p && typeof p.catch === "function") {
+              p.catch(() => { if (isPraying) startHavaFallback(); });
+            }
+          } catch {
+            startHavaFallback();
+          }
+        } else {
+          startHavaFallback();
+        }
+      }
+    });
+
+    // ---------- TEMA, NÖRDLÄGE & SVÅRIGHETSGRAD ----------
+    const themeBtn = document.getElementById("themeToggle");
+    function applyTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      themeBtn.textContent = t === "dark" ? "Ljust läge" : "Mörkt läge";
+      saveState();
+    }
+    const initialTheme = saved.theme || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    applyTheme(initialTheme);
+    themeBtn.addEventListener("click", () => {
+      applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+
+    const nerdBtn = document.getElementById("nerdToggle");
+    function applyNerdMode(flag) {
+      isNerdMode = flag;
+      document.documentElement.setAttribute("data-nerd", flag ? "on" : "off");
+      nerdBtn.textContent = flag ? "Nördläge På" : "Nördläge Av";
+      nerdBtn.classList.toggle("btn-nerd-active", flag);
+      nerdBtn.setAttribute("aria-pressed", flag ? "true" : "false");
+      saveState();
+    }
+    applyNerdMode(isNerdMode);
+    nerdBtn.addEventListener("click", () => {
+      applyNerdMode(!isNerdMode);
+      renderGuide();
+      renderFormulaTable();
+      renderFlashcard();
+      renderQuizQuestion();
+      renderAllGames();
+    });
+
+    function diffTolMult() {
+      return difficulty === "easy" ? 1.5 : difficulty === "hard" ? 0.6 : 1.0;
+    }
+
+    function applyDifficulty(d) {
+      difficulty = d;
+      document.documentElement.setAttribute("data-diff", d);
+      document.querySelectorAll(".diff-btn").forEach(b => b.classList.toggle("is-active", b.dataset.diff === d));
+      saveState();
+    }
+    applyDifficulty(difficulty);
+    document.querySelectorAll(".diff-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        applyDifficulty(btn.dataset.diff);
+        startQuiz(quizMode);
+        resetAllGames();
+      });
+    });
+
+    // ---------- DATA ----------
+    const GUIDE_SECTIONS = [
+      {
+        id: "sec-1", short: "Energibegreppet",
+        focus: "Energiformer och energiprincipen",
+        formula: "W = F · s",
+        simpleSummary: "Energi är förmågan att uträtta arbete eller avge värme och mäts i joule (J). Energi kan aldrig skapas eller förstöras, bara omvandlas.",
+        simpleEx: "Lyfta skolväska med tyngd 65 N rakt upp 0,85 m: W = 65 · 0,85 = 55 J",
+        simpleTip: "Står tyngden redan i Newton (N) ska du inte gångra med 9,82. Använd W = F · s direkt.",
+        nerdDetail: "Basenheter: 1 J = 1 N·m = 1 kg·m²/s². Allmänt gäller W = F · s · cos(vinkel) där vinkeln mäts mellan kraft och rörelse. Energiprincipen innebär att totalenergin i ett slutet system alltid är konstant.",
+        nerdEx: "F = 65 N, s = 0,85 m ger W = 65 · 0,85 = 55,25 J (avrundas till 55 J)"
+      },
+      {
+        id: "sec-2", short: "Lägesenergi",
+        focus: "Lägesenergi och nollnivå",
+        formula: "Ep = m · g · h",
+        simpleSummary: "Lagrad höjdenergi. Ju större massa (m) och höjd (h) över vald nollnivå, desto större lägesenergi.",
+        simpleEx: "Simhoppare 62 kg på 10 m höjd: Ep = 62 · 9,82 · 10 = 6 088 J (6,1 kJ)",
+        simpleTip: "Välj alltid en tydlig nollnivå där h = 0 m och Ep = 0 J.",
+        nerdDetail: "Lyftkraften mot tyngden är F = m·g. Arbetet för att lyfta höjden h blir W = m·g·h = Ep. Häftet använder tyngdfaktorn g = 9,82 N/kg.",
+        nerdEx: "m = 62 kg, h = 10 m, g = 9,82 N/kg ger Ep = 62 · 9,82 · 10 = 6 088,4 J"
+      },
+      {
+        id: "sec-3", short: "Rörelseenergi",
+        focus: "Rörelseenergi och fartberoende",
+        formula: "Ek = (m · v²) / 2",
+        simpleSummary: "Energi som ett föremål har på grund av sin rörelse. Farten v är kvadrerad, så dubbel fart ger 4 gånger större energi.",
+        simpleEx: "Bil 1 400 kg i 72 km/h (= 20 m/s): Ek = (1 400 · 20²) / 2 = 280 000 J (280 kJ)",
+        simpleTip: "Står farten i km/h ska du alltid dela med 3,6 först för att få m/s.",
+        nerdDetail: "Med F = m·a och v² = 2as blir W = F·s = m·a·(v²/2a) = ½mv². Eftersom 1 km/h = 1 000 m / 3 600 s = 1/3,6 m/s måste farten vara i m/s. Faktor k i fart ger k² gånger mer Ek.",
+        nerdEx: "v = 72 / 3,6 = 20 m/s ger Ek = (1 400 · 400) / 2 = 280 000 J = 280 kJ"
+      },
+      {
+        id: "sec-4", short: "Mekanisk energi",
+        focus: "Summan av läges- och rörelseenergi",
+        formula: "Emek = Ep + Ek",
+        simpleSummary: "Total mekanisk energi är lägesenergi plus rörelseenergi i samma ögonblick.",
+        simpleEx: "Drönare 1,5 kg på 18 m i 6,0 m/s: Ep = 265,1 J, Ek = 27,0 J, summa Emek = 292 J",
+        simpleTip: "Räkna ut Ep och Ek var för sig och lägg ihop dem.",
+        nerdDetail: "Emek = m·g·h + ½mv² mäter systemets mekaniska energi relativt samma nollnivå och i rena SI-enheter.",
+        nerdEx: "Ep = 1,5 · 9,82 · 18 = 265,14 J och Ek = (1,5 · 36) / 2 = 27,0 J ger Emek = 292,14 J"
+      },
+      {
+        id: "sec-5", short: "Utan friktion",
+        focus: "Bevarande av mekanisk energi",
+        formula: "Ep1 + Ek1 = Ep2 + Ek2",
+        simpleSummary: "Utan friktion eller luftmotstånd är den mekaniska energin konstant. Lägesenergi omvandlas helt till rörelseenergi.",
+        simpleEx: "Berg- och dalbana från vila på 24 m höjd: v2 = roten ur (2 · 9,82 · 24) = 21,7 m/s",
+        simpleTip: "Saknas massan m i uppgiften förkortas den bort i ekvationen.",
+        nerdDetail: "Vid start från vila (v1 = 0) ner till h2 = 0 gäller m·g·h1 = ½m·v2². Delar vi båda led med m blir g·h1 = ½v2² och v2 = roten ur (2·g·h1).",
+        nerdEx: "h1 = 24 m ger v2 = roten ur (2 · 9,82 · 24) = roten ur 471,36 = 21,71 m/s"
+      },
+      {
+        id: "sec-6", short: "Med friktion",
+        focus: "Friktionsarbete Wf = Ff · s",
+        formula: "Emek,före = Emek,efter + Wf",
+        simpleSummary: "Med friktion minskar den mekaniska energin. Det som saknas efteråt har blivit värme (Wf).",
+        simpleEx: "Pulka 45 kg från 8,0 m (3 535 J) når 9,5 m/s (2 031 J): Wf = 3 535 − 2 031 = 1 504 J",
+        simpleTip: "Värmen är alltid energin före minus energin efter. Med sträcka s gäller Wf = Ff · s.",
+        nerdDetail: "Friktionskraften bromsar rörelsen längs glidsträckan s och omvandlar mekanisk energi till termisk energi med beloppet Wf = Ff · s. Medelfriktionskraften blir Ff = Wf / s.",
+        nerdEx: "Ep1 = 45 · 9,82 · 8,0 = 3 535,2 J och Ek2 = (45 · 9,5²) / 2 = 2 030,6 J ger Wf = 1 504,6 J"
+      },
+      {
+        id: "sec-7", short: "Verkningsgrad",
+        focus: "Andel nyttig energi",
+        formula: "eta = E_nyttig / E_tillförd",
+        simpleSummary: "Visar hur stor del av insatt energi som blir nyttig. Saknar enhet och anges mellan 0 och 1 (eller 0 till 100 %).",
+        simpleEx: "Vinsch förbrukar 8 500 J och lyfter 5 892 J: eta = 5 892 / 8 500 = 0,69 (69 %)",
+        simpleTip: "Dela nyttig energi med totalt tillförd energi. Svaret kan aldrig bli över 100 %.",
+        nerdDetail: "Joule delat med joule ger ett enhetslöst tal. Under samma tid t gäller även effektkvoten eta = P_nyttig / P_tillförd. Skillnaden E_tillförd − E_nyttig är energiförlust.",
+        nerdEx: "E_nyttig = 120 · 9,82 · 5,0 = 5 892 J, E_tillförd = 8 500 J ger eta = 5 892 / 8 500 = 0,693 (69 %)"
+      }
+    ];
+
+    const FORMULAS = [
+      { name: "Arbete", main: "W = F · s", simple: "Kraft i rörelseriktningen gånger sträcka (1 J = 1 Nm)", nerd: "F = W / s och s = W / F (basenhet kg·m²/s²)" },
+      { name: "Lägesenergi", main: "Ep = m · g · h", simple: "Höjdenergi över vald nollnivå (g = 9,82 N/kg)", nerd: "h = Ep / (m·g) och m = Ep / (g·h)" },
+      { name: "Rörelseenergi", main: "Ek = (m · v²) / 2", simple: "Farten måste vara i m/s (km/h delas med 3,6)", nerd: "v = roten ur ((2·Ek) / m) och m = (2·Ek) / v²" },
+      { name: "Mekanisk energi", main: "Emek = Ep + Ek", simple: "Summan av läges- och rörelseenergi i samma läge", nerd: "Emek = m·g·h + ½m·v² med gemensam nollnivå" },
+      { name: "Utan friktion", main: "Ep1 + Ek1 = Ep2 + Ek2", simple: "Mekanisk energi är konstant utan friktion", nerd: "Från vila till h=0: v2 = roten ur (2·g·h1) och h1 = v2² / (2·g)" },
+      { name: "Med friktion", main: "Emek,före = Emek,efter + Wf", simple: "Saknad mekanisk energi har blivit värme (Wf)", nerd: "Wf = Emek,före − Emek,efter och Wf = Ff · s" },
+      { name: "Verkningsgrad", main: "eta = E_nyttig / E_tillförd", simple: "Andel nyttig energi utan enhet (0 till 100 %)", nerd: "E_nyttig = eta · E_tillförd och eta = P_nyttig / P_tillförd" }
+    ];
+
+    const FLASHCARDS = [
+      { topic: "Energibegreppet", q: "Vad är energi och vilken är enheten?", simpleA: "Förmågan att uträtta arbete eller avge värme. Enhet: joule (J).", hint: "1 J = 1 Nm", nerdA: "Basenhet: 1 J = 1 N·m = 1 kg·m²/s²" },
+      { topic: "Energibegreppet", q: "Vad säger energiprincipen?", simpleA: "Energi kan varken skapas eller förstöras, bara omvandlas.", hint: "Total energi i ett slutet system är konstant", nerdA: "Mekanisk energi som försvinner har alltid omvandlats till en annan energiform, oftast värme" },
+      { topic: "Energibegreppet", q: "Hur beräknas arbete (W) med kraft och sträcka?", simpleA: "W = F · s", hint: "F i Newton, s i meter", nerdA: "Kraften måste verka i rörelsens riktning" },
+      { topic: "Lägesenergi", q: "Vad beror lägesenergin (Ep) på?", simpleA: "Massa (m) och höjd (h) över vald nollnivå.", hint: "Ep = m · g · h", nerdA: "Motsvarar lyftarbetet mot tyngden F = m·g upp till höjden h" },
+      { topic: "Lägesenergi", q: "Vad är Ep vid den valda nollnivån?", simpleA: "Ep = 0 J eftersom h = 0 m", hint: "Välj marken eller dalens botten", nerdA: "Nollnivån får väljas fritt så länge samma nivå används i hela uppgiften" },
+      { topic: "Lägesenergi", q: "Vilket värde på tyngdfaktorn g används?", simpleA: "g = 9,82 N/kg", hint: "Ger joule när m är i kg och h i m", nerdA: "Normalvärdet för tyngdaccelerationen i Sverige är 9,82 m/s²" },
+      { topic: "Rörelseenergi", q: "Vad är formeln för rörelseenergi?", simpleA: "Ek = (m · v²) / 2", hint: "m i kg, v i m/s", nerdA: "Härleds ur W = F·s = m·a·(v²/2a) = ½mv²" },
+      { topic: "Rörelseenergi", q: "Vad händer med Ek om farten fördubblas?", simpleA: "Den blir 4 gånger så stor", hint: "Eftersom 2² = 4", nerdA: "Faktor k på farten ger k² gånger så stor rörelseenergi" },
+      { topic: "Rörelseenergi", q: "Hur omvandlar man km/h till m/s?", simpleA: "Dela med 3,6", hint: "72 km/h / 3,6 = 20 m/s", nerdA: "1 km / 1 h = 1 000 m / 3 600 s = 1 / 3,6 m/s" },
+      { topic: "Mekanisk energi", q: "Vad betyder mekanisk energi (Emek)?", simpleA: "Summan av läges- och rörelseenergi: Emek = Ep + Ek", hint: "Gäller i samma ögonblick", nerdA: "Emek = m·g·h + ½m·v²" },
+      { topic: "Utan friktion", q: "När är den mekaniska energin konstant?", simpleA: "När ingen friktion eller luftmotstånd verkar", hint: "Ep1 + Ek1 = Ep2 + Ek2", nerdA: "Kräver också att inga yttre krafter tillför eller bromsar rörelsen" },
+      { topic: "Utan friktion", q: "Varför behövs inte massan m i en friktionsfri backe?", simpleA: "m finns på båda sidor och förkortas bort", hint: "v2 = roten ur (2 · g · h1)", nerdA: "m·g·h1 = ½m·v2² ger g·h1 = ½v2² efter division med m" },
+      { topic: "Med friktion", q: "Vad händer med mekanisk energi vid friktion?", simpleA: "Den minskar och blir värme", hint: "Kallas friktionsarbete Wf", nerdA: "Termisk energi ökar i kontaktytorna med beloppet Wf" },
+      { topic: "Med friktion", q: "Hur beräknas friktionsarbetet Wf med kraft och sträcka?", simpleA: "Wf = Ff · s", hint: "Ff = friktionskraft, s = sträcka", nerdA: "Kan skrivas om till Ff = Wf / s" },
+      { topic: "Med friktion", q: "Hur hittar du värmeförlusten Wf ur energin före och efter?", simpleA: "Wf = Emek,före − Emek,efter", hint: "Före minus efter", nerdA: "Följer direkt ur energibalansen Emek,före = Emek,efter + Wf" },
+      { topic: "Verkningsgrad", q: "Vad är verkningsgrad och vilken enhet har den?", simpleA: "Andelen tillförd energi som blir nyttig. Saknar enhet.", hint: "eta = E_nyttig / E_tillförd", nerdA: "Joule delat med joule tar ut varandra; aldrig över 100 %" },
+      { topic: "Enheter", q: "Hur många Joule går det på 1 kilojoule (kJ)?", simpleA: "1 kJ = 1 000 J", hint: "kilo betyder tusen", nerdA: "Omvandla alltid kJ till J före beräkning med g, N eller m/s" }
+    ];
+
+    const QUIZ_QUESTIONS = [
+      { id: 1, diff: "easy", type: "theory", cat: "Lägesenergi", q: "Vad avgör hur stor ett föremåls potentiella energi (Ep) är i jordens tyngdfält?", options: ["Föremålets massa och höjd över en vald nollnivå", "Föremålets massa och fart", "Endast föremålets höjd över havsytan", "Föremålets volym och friktion"], correct: 0, hint: "Titta på Ep = m · g · h", exp: "Ep = m · g · h beror på massan och höjden över den valda nollnivån", nerdExp: "Formeln Ep = m·g·h är direkt proportionell mot både m och h relativt nollnivån" },
+      { id: 2, diff: "medium", type: "theory", cat: "Rörelseenergi", q: "En cyklist ökar sin fart till det dubbla. Vad händer med den kinetiska energin?", options: ["Den blir dubbelt så stor", "Den blir fyra gånger så stor", "Den blir hälften så stor", "Den ändras inte"], correct: 1, hint: "v är upphöjt till 2 i Ek = (m · v²) / 2", exp: "Farten är kvadrerad: 2² = 4 gånger större energi", nerdExp: "Ek,ny = ½ · m · (2v)² = 4 · (½ · m · v²)" },
+      { id: 3, diff: "easy", type: "theory", cat: "Rörelseenergi", q: "Du ska räkna ut kinetisk energi för en bil som kör i 108 km/h. Vilket värde på v ska du sätta in?", options: ["108 m/s", "30 m/s", "388,8 m/s", "10,8 m/s"], correct: 1, hint: "Dela km/h med 3,6", exp: "v = 108 / 3,6 = 30 m/s", nerdExp: "108 000 m / 3 600 s = 30 m/s. Gångrar man med 3,6 får man fällan 388,8" },
+      { id: 4, diff: "easy", type: "theory", cat: "Mekanisk energi", q: "Vad är mekanisk energi (Emek)?", options: ["Skillnaden mellan lägesenergi och värme", "Summan av potentiell energi och kinetisk energi", "Endast energi som blir friktion", "Verkningsgrad gånger effekt"], correct: 1, hint: "Lägesenergi plus rörelseenergi", exp: "Emek = Ep + Ek", nerdExp: "Sammanfattar kroppens makroskopiska läges- och rörelseenergi i samma läge" },
+      { id: 5, diff: "hard", type: "theory", cat: "Utan friktion", q: "En kula släpps från vila i en friktionsfri backe. Du vet höjden h1 men inte massan m. Kan farten ändå räknas ut?", options: ["Nej, massan m behövs alltid", "Ja, för massan m finns på båda sidor och förkortas bort", "Ja, om man gissar m = 1 kg", "Nej, man behöver radien"], correct: 1, hint: "Skriv upp m·g·h1 = (m·v2²) / 2", exp: "Massan m förkortas bort och ger v2 = roten ur (2 · g · h1)", nerdExp: "m·g·h1 = ½m·v2² delas med m i båda led så g·h1 = ½v2²" },
+      { id: 6, diff: "medium", type: "theory", cat: "Med friktion", q: "En låda glider nerför en ramp med friktion. Vart tar den saknade mekaniska energin vägen?", options: ["Den blir ny lägesenergi", "Den är oförändrad", "Den omvandlas till termisk energi (värme)", "Den försvinner helt"], correct: 2, hint: "Energiprincipen gäller alltid", exp: "Den omvandlas till värme (Wf)", nerdExp: "Friktionsarbetet Wf = Ff · s överför mekanisk energi till värme i glidytorna" },
+      { id: 7, diff: "medium", type: "theory", cat: "Verkningsgrad", q: "Vilket påstående om verkningsgrad (eta) är rätt?", options: ["Mäts i joule och kan vara över 100 %", "Mäts i watt", "Saknar enhet och ligger mellan 0 och 1 (0 till 100 %)", "Beräknas som tillförd delat med nyttig"], correct: 2, hint: "eta = E_nyttig / E_tillförd", exp: "Verkningsgrad saknar enhet och är högst 1 (100 %)", nerdExp: "Joule delat med joule tar ut varandra; värden över 1 bryter mot energiprincipen" },
+      { id: 8, diff: "easy", type: "theory", cat: "Utan friktion", q: "En vagn i en friktionsfri bana når botten (nollnivån h = 0 m). Hur fördelar sig energin där?", options: ["All energi är lägesenergi", "All mekanisk energi är rörelseenergi och Ep = 0 J", "Hälften är värme", "Både Ep och Ek är 0 J"], correct: 1, hint: "Vid h = 0 m är Ep = 0", exp: "Vid h = 0 är Ep = 0 J så all energi är Ek", nerdExp: "All lägesenergi från toppen har omvandlats till rörelseenergi" },
+      { id: 9, diff: "easy", type: "calc", cat: "Lägesenergi", q: "En ryggsäck (8,0 kg) lyfts 2,5 m upp från golvet. Hur stor är dess lägesenergi? (g = 9,82 N/kg)", options: ["196 J", "20 J", "78,6 J", "393 J"], correct: 0, hint: "Ep = m · g · h", exp: "Ep = 8,0 · 9,82 · 2,5 = 196,4 J (ca 196 J)", nerdExp: "20 J är fällan om man glömmer gångra med g = 9,82" },
+      { id: 10, diff: "medium", type: "calc", cat: "Rörelseenergi", q: "En moped med förare (150 kg) kör i 36 km/h. Hur stor är rörelseenergin?", options: ["7,5 kJ", "15 kJ", "97,2 kJ", "750 J"], correct: 0, hint: "Omvandla 36 km/h till m/s först", exp: "v = 36 / 3,6 = 10 m/s, Ek = (150 · 10²) / 2 = 7 500 J = 7,5 kJ", nerdExp: "97,2 kJ fås utan division med 3,6 och 750 J utan kvadrat på farten" },
+      { id: 11, diff: "medium", type: "calc", cat: "Mekanisk energi", q: "En fågel (0,50 kg) flyger på höjden 10 m med farten 8,0 m/s. Vad är den mekaniska energin?", options: ["65 J", "49 J", "16 J", "81 J"], correct: 0, hint: "Addera Ep och Ek", exp: "Ep = 49,1 J och Ek = 16,0 J ger Emek = 65,1 J (65 J)", nerdExp: "Ep = 0,50 · 9,82 · 10 = 49,1 J och Ek = (0,50 · 64) / 2 = 16,0 J" },
+      { id: 12, diff: "hard", type: "calc", cat: "Utan friktion", q: "En sten släpps från vila 15 m över vattnet utan luftmotstånd. Vilken fart har den vid ytan?", options: ["17 m/s", "12 m/s", "295 m/s", "24 m/s"], correct: 0, hint: "v2 = roten ur (2 · g · h1)", exp: "v2 = roten ur (2 · 9,82 · 15) = 17,2 m/s (17 m/s)", nerdExp: "m·g·h1 = ½m·v2² ger roten ur 294,6 = 17,16 m/s" },
+      { id: 13, diff: "hard", type: "calc", cat: "Utan friktion", q: "En skateboardåkare åker upp i en ramp med farten 6,0 m/s i botten utan friktion. Hur högt kommer hen?", options: ["1,8 m", "3,7 m", "0,31 m", "6,0 m"], correct: 0, hint: "h2 = v1² / (2 · g)", exp: "h2 = 36 / (2 · 9,82) = 1,83 m (1,8 m)", nerdExp: "½m·v1² = m·g·h2 ger h2 = v1² / (2·g) = 36 / 19,64 = 1,83 m" },
+      { id: 14, diff: "hard", type: "calc", cat: "Med friktion", q: "Ett barn med kälke (40 kg) åker från vila nerför 5,0 m och når 6,0 m/s. Hur mycket blev värme?", options: ["1 244 J", "1 964 J", "720 J", "2 684 J"], correct: 0, hint: "Wf = Ep1 − Ek2", exp: "Ep1 = 1 964 J, Ek2 = 720 J ger Wf = 1 244 J", nerdExp: "Ep1 = 40 · 9,82 · 5,0 = 1 964 J och Ek2 = (40 · 36) / 2 = 720 J" },
+      { id: 15, diff: "easy", type: "calc", cat: "Med friktion", q: "En kälke bromsas av friktionskraften 80 N längs 25 m. Hur stort är friktionsarbetet Wf?", options: ["2 000 J", "3,2 J", "105 J", "200 J"], correct: 0, hint: "Wf = Ff · s", exp: "Wf = 80 · 25 = 2 000 J", nerdExp: "80 N · 25 m = 2 000 Nm = 2 000 J" },
+      { id: 16, diff: "hard", type: "calc", cat: "Verkningsgrad", q: "En motor förbrukar 5,0 kJ och ger 3 500 J lägesenergi. Vad är verkningsgraden?", options: ["70 %", "30 %", "143 %", "1,5 kJ"], correct: 0, hint: "Gör om 5,0 kJ till 5 000 J först", exp: "eta = 3 500 / 5 000 = 0,70 = 70 %", nerdExp: "5,0 kJ = 5 000 J ger 3 500 / 5 000 = 0,70" },
+      { id: 17, diff: "easy", type: "theory", cat: "Energibegreppet", q: "Vad säger energiprincipen?", options: ["Energi skapas när något faller", "Energi kan varken skapas eller förstöras, bara omvandlas", "Energi förstörs av friktion", "Lägesenergi är alltid störst"], correct: 1, hint: "Totalenergin ändras aldrig", exp: "Energi kan aldrig skapas eller förstöras, bara omvandlas", nerdExp: "Totalenergin i ett slutet system är alltid konstant" },
+      { id: 18, diff: "easy", type: "theory", cat: "Energibegreppet", q: "Vilken är enheten för energi och vad motsvarar 1 J?", options: ["Watt (1 W = 1 N/m)", "Newton (1 N = 1 kg·m)", "Joule (1 J = 1 Nm)", "Kilojoule (1 kJ = 100 Nm)"], correct: 2, hint: "Titta på W = F · s", exp: "Joule (J), där 1 J = 1 Nm", nerdExp: "Watt är effekt (J/s), medan energi är kraft gånger sträcka (Nm = J)" },
+      { id: 19, diff: "easy", type: "calc", cat: "Energibegreppet", q: "Du drar en låda längs golvet med 40 N i 6,0 m. Hur stort arbete utför du?", options: ["240 J", "6,7 J", "46 J", "24 J"], correct: 0, hint: "W = F · s", exp: "W = 40 · 6,0 = 240 J", nerdExp: "40 N · 6,0 m = 240 Nm = 240 J" },
+      { id: 20, diff: "hard", type: "calc", cat: "Energibegreppet", q: "En matkasse med tyngden 50 N lyfts 0,90 m upp. Hur mycket energi tillförs kassen?", options: ["45 J", "55,6 J", "442 J", "4,5 J"], correct: 0, hint: "Tyngden står redan i Newton", exp: "W = 50 · 0,90 = 45 J (gångra inte med 9,82)", nerdExp: "Eftersom tyngden redan står i Newton ska man inte gångra med g = 9,82 (det ger fällan 442 J)" }
+    ];
+
+    // ---------- NAVIGATION ----------
+    let activeTab = "guide";
+    const navBtns = document.querySelectorAll(".nav-btn");
+    const tabEls = {
+      guide: document.getElementById("tab-guide"),
+      formulas: document.getElementById("tab-formulas"),
+      flashcards: document.getElementById("tab-flashcards"),
+      quiz: document.getElementById("tab-quiz"),
+      games: document.getElementById("tab-games"),
+      sim: document.getElementById("tab-sim")
+    };
+    function switchTab(tabKey) {
+      activeTab = tabKey;
+      navBtns.forEach(b => b.classList.toggle("active", b.dataset.tab === tabKey));
+      Object.entries(tabEls).forEach(([k, el]) => el.classList.toggle("hidden", k !== tabKey));
+      if (tabKey !== "games") stopSnakeLoop();
+    }
+    navBtns.forEach(btn => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
+    document.getElementById("goToQuizTop").addEventListener("click", () => switchTab("quiz"));
+
+    document.getElementById("resetAllBtn").addEventListener("click", () => {
+      readSections.clear();
+      knownSet.clear();
+      completedGames.clear();
+      Object.keys(answersById).forEach(k => delete answersById[k]);
+      saveState();
+      renderGuide();
+      renderFlashcard();
+      resetQuiz();
+      resetAllGames();
+    });
+
+    // ---------- TEORI ----------
+    let teoriView = "sections";
+    const openSections = new Set(["sec-1"]);
+    const teoriSectionsView = document.getElementById("teoriSectionsView");
+    const teoriTrapsView = document.getElementById("teoriTrapsView");
+    const teoriOverviewView = document.getElementById("teoriOverviewView");
+    const overviewTableBody = document.getElementById("overviewTableBody");
+    const toggleAllAccBtn = document.getElementById("toggleAllAccBtn");
+
+    document.querySelectorAll("#teoriViewBtns .btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        teoriView = btn.dataset.view;
+        document.querySelectorAll("#teoriViewBtns .btn").forEach(b => b.classList.toggle("is-active", b.dataset.view === teoriView));
+        renderGuide();
+      });
+    });
+
+    toggleAllAccBtn.addEventListener("click", () => {
+      if (openSections.size === GUIDE_SECTIONS.length) openSections.clear();
+      else GUIDE_SECTIONS.forEach(s => openSections.add(s.id));
+      renderGuide();
+    });
+
+    function renderOverviewTable() {
+      overviewTableBody.innerHTML = "";
+      GUIDE_SECTIONS.forEach(sec => {
+        const tr = document.createElement("tr");
+        tr.className = "clickable-row";
+        tr.innerHTML = `
+          <td><strong>${sec.short}</strong>${readSections.has(sec.id) ? " (Läst)" : ""}</td>
+          <td>${sec.formula}</td>
+          <td class="muted">${sec.focus}</td>
+        `;
+        tr.addEventListener("click", () => {
+          teoriView = "sections";
+          openSections.clear();
+          openSections.add(sec.id);
+          document.querySelectorAll("#teoriViewBtns .btn").forEach(b => b.classList.toggle("is-active", b.dataset.view === "sections"));
+          renderGuide();
+        });
+        overviewTableBody.appendChild(tr);
+      });
+    }
+
+    function renderGuide() {
+      teoriSectionsView.classList.toggle("hidden", teoriView !== "sections");
+      teoriTrapsView.classList.toggle("hidden", teoriView !== "traps");
+      teoriOverviewView.classList.toggle("hidden", teoriView !== "overview");
+      toggleAllAccBtn.classList.toggle("hidden", teoriView !== "sections");
+      toggleAllAccBtn.textContent = openSections.size === GUIDE_SECTIONS.length ? "Stäng alla" : "Öppna alla";
+
+      if (teoriView === "overview") { renderOverviewTable(); return; }
+      if (teoriView !== "sections") return;
+
+      teoriSectionsView.innerHTML = "";
+      GUIDE_SECTIONS.forEach(sec => {
+        const isOpen = openSections.has(sec.id);
+        const isDone = readSections.has(sec.id);
+        const item = document.createElement("div");
+        item.className = "acc-item";
+
+        const head = document.createElement("div");
+        head.className = "acc-head";
+        head.innerHTML = `
+          <div class="acc-title-wrap">
+            <span class="acc-title">${sec.short}</span>
+            <span class="acc-formula">${sec.formula}</span>
+          </div>
+          <div class="bar-group">
+            <button class="btn btn-sm mark-read-btn ${isDone ? "btn-done" : ""}">${isDone ? "Läst" : "Markera läst"}</button>
+            <span class="muted" style="font-size:12px;">${isOpen ? "Stäng" : "Öppna"}</span>
+          </div>
+        `;
+        head.querySelector(".mark-read-btn").addEventListener("click", e => {
+          e.stopPropagation();
+          if (readSections.has(sec.id)) readSections.delete(sec.id);
+          else readSections.add(sec.id);
+          saveState();
+          renderGuide();
+        });
+        head.addEventListener("click", () => {
+          if (openSections.has(sec.id)) openSections.delete(sec.id);
+          else openSections.add(sec.id);
+          renderGuide();
+        });
+        item.appendChild(head);
+
+        if (isOpen) {
+          const body = document.createElement("div");
+          body.className = "acc-body stack-sm";
+          body.innerHTML = `
+            <div><strong>Kortfattat:</strong> ${sec.simpleSummary}</div>
+            <div><strong>Exempel:</strong> ${sec.simpleEx}</div>
+            <div class="muted"><strong>Fälla:</strong> ${sec.simpleTip}</div>
+            <div class="nerd-block nerd-only">
+              <div><strong>Fördjupning och härledning:</strong> ${sec.nerdDetail}</div>
+              <div style="margin-top:4px;"><strong>Fullständig räkning:</strong> ${sec.nerdEx}</div>
+            </div>
+          `;
+          item.appendChild(body);
+        }
+
+        teoriSectionsView.appendChild(item);
+      });
+    }
+    renderGuide();
+
+    // ---------- FORMLER ----------
+    const convKmh = document.getElementById("convKmh");
+    const convMs = document.getElementById("convMs");
+    const convKj = document.getElementById("convKj");
+    const convJ = document.getElementById("convJ");
+    convKmh.addEventListener("input", () => { const v = parseFloat(convKmh.value); convMs.value = Number.isFinite(v) ? +(v / 3.6).toFixed(2) : ""; });
+    convMs.addEventListener("input", () => { const v = parseFloat(convMs.value); convKmh.value = Number.isFinite(v) ? +(v * 3.6).toFixed(2) : ""; });
+    convKj.addEventListener("input", () => { const v = parseFloat(convKj.value); convJ.value = Number.isFinite(v) ? +(v * 1000).toFixed(1) : ""; });
+    convJ.addEventListener("input", () => { const v = parseFloat(convJ.value); convKj.value = Number.isFinite(v) ? +(v / 1000).toFixed(3) : ""; });
+
+    const calcType = document.getElementById("calcType");
+    const calcInputs = document.getElementById("calcInputs");
+    const calcOutput = document.getElementById("calcOutput");
+
+    function renderCalculatorFields() {
+      const t = calcType.value;
+      if (t === "work") {
+        calcInputs.innerHTML = `
+          <div><label class="muted" style="font-size:12px;" for="cF">Kraft F (N)</label><input id="cF" type="number" step="any" value="65"></div>
+          <div><label class="muted" style="font-size:12px;" for="cS">Sträcka s (m)</label><input id="cS" type="number" step="any" value="0.85"></div>`;
+      } else if (t === "ep") {
+        calcInputs.innerHTML = `
+          <div><label class="muted" style="font-size:12px;" for="cM">Massa m (kg)</label><input id="cM" type="number" step="any" value="62"></div>
+          <div><label class="muted" style="font-size:12px;" for="cH">Höjd h (m)</label><input id="cH" type="number" step="any" value="10"></div>`;
+      } else if (t === "ek") {
+        calcInputs.innerHTML = `
+          <div><label class="muted" style="font-size:12px;" for="cM">Massa m (kg)</label><input id="cM" type="number" step="any" value="1400"></div>
+          <div><label class="muted" style="font-size:12px;" for="cV">Fart v</label><input id="cV" type="number" step="any" value="72"></div>
+          <div style="grid-column:1/-1;"><select id="cUnit" aria-label="Enhet på fart"><option value="kmh">km/h (delas med 3,6)</option><option value="ms">m/s</option></select></div>`;
+      } else if (t === "vfree") {
+        calcInputs.innerHTML = `
+          <div style="grid-column:1/-1;"><label class="muted" style="font-size:12px;" for="cH">Starthöjd h1 (m)</label><input id="cH" type="number" step="any" value="24"></div>`;
+      } else {
+        calcInputs.innerHTML = `
+          <div><label class="muted" style="font-size:12px;" for="cEn">Nyttig energi (J)</label><input id="cEn" type="number" step="any" value="5892"></div>
+          <div><label class="muted" style="font-size:12px;" for="cEt">Tillförd energi (J)</label><input id="cEt" type="number" step="any" value="8500"></div>`;
+      }
+      calcInputs.querySelectorAll("input,select").forEach(el => el.addEventListener("input", computeCalc));
+      computeCalc();
+    }
+
+    function computeCalc() {
+      const g = 9.82, t = calcType.value;
+      const val = id => parseFloat(document.getElementById(id)?.value);
+      if (t === "work") {
+        const f = val("cF"), s = val("cS");
+        if (!Number.isFinite(f) || !Number.isFinite(s)) { calcOutput.textContent = "Fyll i värden"; return; }
+        const w = f * s;
+        calcOutput.innerHTML = `W = ${f} · ${s} = <strong>${w.toFixed(1)} J</strong> (${(w / 1000).toFixed(3)} kJ)`;
+      } else if (t === "ep") {
+        const m = val("cM"), h = val("cH");
+        if (!Number.isFinite(m) || !Number.isFinite(h)) { calcOutput.textContent = "Fyll i värden"; return; }
+        const ep = m * g * h;
+        calcOutput.innerHTML = `Ep = ${m} · 9,82 · ${h} = <strong>${ep.toFixed(1)} J</strong> (${(ep / 1000).toFixed(2)} kJ)`;
+      } else if (t === "ek") {
+        const m = val("cM"), vRaw = val("cV"), u = document.getElementById("cUnit")?.value;
+        if (!Number.isFinite(m) || !Number.isFinite(vRaw)) { calcOutput.textContent = "Fyll i värden"; return; }
+        const v = u === "kmh" ? vRaw / 3.6 : vRaw;
+        const ek = (m * v * v) / 2;
+        calcOutput.innerHTML = (u === "kmh" ? `v = ${v.toFixed(2)} m/s, ` : "") + `Ek = <strong>${ek.toFixed(1)} J</strong> (${(ek / 1000).toFixed(2)} kJ)`;
+      } else if (t === "vfree") {
+        const h = val("cH");
+        if (!Number.isFinite(h) || h < 0) { calcOutput.textContent = "Ange positiv höjd"; return; }
+        const v = Math.sqrt(2 * g * h);
+        calcOutput.innerHTML = `v2 = roten ur (2 · 9,82 · ${h}) = <strong>${v.toFixed(2)} m/s</strong> (${(v * 3.6).toFixed(1)} km/h)`;
+      } else {
+        const en = val("cEn"), et = val("cEt");
+        if (!Number.isFinite(en) || !Number.isFinite(et) || et <= 0) { calcOutput.textContent = "Tillförd måste vara större än 0"; return; }
+        const eta = en / et;
+        calcOutput.innerHTML = `eta = ${en} / ${et} = <strong>${eta.toFixed(3)} (${(eta * 100).toFixed(1)} %)</strong>`;
+      }
+    }
+    calcType.addEventListener("change", renderCalculatorFields);
+    renderCalculatorFields();
+
+    const formulaTableBody = document.getElementById("formulaTableBody");
+    function renderFormulaTable() {
+      formulaTableBody.innerHTML = "";
+      FORMULAS.forEach(f => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${f.name}</strong></td>
+          <td><strong>${f.main}</strong></td>
+          <td>${f.simple}</td>
+          <td class="nerd-only">${f.nerd}</td>
+        `;
+        formulaTableBody.appendChild(tr);
+      });
+    }
+    renderFormulaTable();
+
+    // ---------- KORT ----------
+    let fcOrder = FLASHCARDS.map((_, i) => i), fcFilter = "all", fcPos = 0, fcFlipped = false;
+    const fcCard = document.getElementById("fcCard");
+    const fcTopic = document.getElementById("fcTopic");
+    const fcSideLabel = document.getElementById("fcSideLabel");
+    const fcBody = document.getElementById("fcBody");
+    const fcFooterNote = document.getElementById("fcFooterNote");
+
+    function getVisibleFlashcards() {
+      return fcFilter === "todo" ? fcOrder.filter(i => !knownSet.has(i)) : fcOrder;
+    }
+
+    function renderFlashcard() {
+      const list = getVisibleFlashcards();
+      document.getElementById("fcTodoCount").textContent = FLASHCARDS.length - knownSet.size;
+
+      if (list.length === 0) {
+        fcCard.classList.remove("showing-answer");
+        fcTopic.textContent = "Klart";
+        fcSideLabel.textContent = "";
+        fcBody.innerHTML = `<div class="fc-q">Alla ${FLASHCARDS.length} kort är markerade som klara</div>`;
+        fcFooterNote.textContent = "Byt till Alla kort eller gå vidare till Quiz eller Spel";
+        document.getElementById("fcProgress").textContent = "0 oklara kort";
+        return;
+      }
+
+      if (fcPos >= list.length) fcPos = 0;
+      if (fcPos < 0) fcPos = list.length - 1;
+
+      const idx = list[fcPos];
+      const card = FLASHCARDS[idx];
+      fcCard.classList.toggle("showing-answer", fcFlipped);
+      fcTopic.textContent = card.topic + (knownSet.has(idx) ? " (Klar)" : "");
+      fcSideLabel.textContent = fcFlipped ? "Svar" : "Fråga";
+
+      if (!fcFlipped) {
+        fcBody.innerHTML = `<div class="fc-q">${card.q}</div>`;
+        fcFooterNote.textContent = "Klicka på kortet eller tryck Mellanslag för svar";
+      } else {
+        fcBody.innerHTML = `
+          <div class="fc-a">${card.simpleA}</div>
+          <div class="fc-hint">${card.hint}</div>
+          <div class="nerd-block nerd-only" style="text-align:left;">
+            <strong>Fördjupning:</strong> ${card.nerdA}
+          </div>
+        `;
+        fcFooterNote.textContent = "Markera om du kan kortet eller vill repetera";
+      }
+      document.getElementById("fcProgress").textContent = `Kort ${fcPos + 1} av ${list.length}`;
+    }
+
+    function toggleFlashcard() {
+      if (getVisibleFlashcards().length === 0) return;
+      fcFlipped = !fcFlipped;
+      renderFlashcard();
+    }
+    fcCard.addEventListener("click", toggleFlashcard);
+    fcCard.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.code === "Space") { e.preventDefault(); toggleFlashcard(); }
+    });
+    document.getElementById("fcPrev").addEventListener("click", () => { fcPos--; fcFlipped = false; renderFlashcard(); });
+    document.getElementById("fcNext").addEventListener("click", () => { fcPos++; fcFlipped = false; renderFlashcard(); });
+    document.getElementById("fcMarkKnown").addEventListener("click", () => {
+      const list = getVisibleFlashcards();
+      if (list.length > 0) { knownSet.add(list[fcPos]); if (fcFilter === "all") fcPos++; fcFlipped = false; saveState(); renderFlashcard(); }
+    });
+    document.getElementById("fcMarkReview").addEventListener("click", () => {
+      const list = getVisibleFlashcards();
+      if (list.length > 0) { knownSet.delete(list[fcPos]); fcPos++; fcFlipped = false; saveState(); renderFlashcard(); }
+    });
+    document.getElementById("fcShuffle").addEventListener("click", () => {
+      for (let i = fcOrder.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [fcOrder[i], fcOrder[j]] = [fcOrder[j], fcOrder[i]]; }
+      fcPos = 0; fcFlipped = false; renderFlashcard();
+    });
+    const fcFilterAll = document.getElementById("fcFilterAll"), fcFilterTodo = document.getElementById("fcFilterTodo");
+    fcFilterAll.addEventListener("click", () => { fcFilter = "all"; fcPos = 0; fcFlipped = false; fcFilterAll.classList.add("is-active"); fcFilterTodo.classList.remove("is-active"); renderFlashcard(); });
+    fcFilterTodo.addEventListener("click", () => { fcFilter = "todo"; fcPos = 0; fcFlipped = false; fcFilterTodo.classList.add("is-active"); fcFilterAll.classList.remove("is-active"); renderFlashcard(); });
+    renderFlashcard();
+
+    // ---------- QUIZ ----------
+    let quizMode = "all", quizList = [...QUIZ_QUESTIONS], quizIdx = 0;
+    const quizActiveArea = document.getElementById("quizActiveArea");
+    const quizSummaryArea = document.getElementById("quizSummaryArea");
+    const quizHintBox = document.getElementById("quizHintBox");
+    const quizHintToggle = document.getElementById("quizHintToggle");
+
+    function sortQuestionsByDifficulty(list) {
+      if (difficulty === "easy") {
+        const order = { easy: 0, medium: 1, hard: 2 };
+        return [...list].sort((a, b) => order[a.diff] - order[b.diff]);
+      }
+      if (difficulty === "hard") {
+        const order = { hard: 0, medium: 1, easy: 2 };
+        return [...list].sort((a, b) => order[a.diff] - order[b.diff]);
+      }
+      return [...list];
+    }
+
+    function updateGlobalScore() {
+      let wrong = 0;
+      QUIZ_QUESTIONS.forEach(q => { if ((q.id in answersById) && answersById[q.id] !== q.correct) wrong++; });
+      document.getElementById("quizWrongCount").textContent = wrong;
+      document.getElementById("quizWrongBtn").classList.toggle("hidden", wrong === 0);
+    }
+
+    function startQuiz(mode) {
+      quizMode = mode;
+      document.querySelectorAll(".quiz-mode-btn").forEach(b => b.classList.toggle("is-active", b.dataset.mode === mode));
+      if (mode === "theory") quizList = sortQuestionsByDifficulty(QUIZ_QUESTIONS.filter(q => q.type === "theory"));
+      else if (mode === "calc") quizList = sortQuestionsByDifficulty(QUIZ_QUESTIONS.filter(q => q.type === "calc"));
+      else if (mode === "wrong") {
+        quizList = sortQuestionsByDifficulty(QUIZ_QUESTIONS.filter(q => (q.id in answersById) && answersById[q.id] !== q.correct));
+        quizList.forEach(q => delete answersById[q.id]);
+        saveState();
+      } else quizList = sortQuestionsByDifficulty(QUIZ_QUESTIONS);
+      quizIdx = 0;
+      quizActiveArea.classList.remove("hidden");
+      quizSummaryArea.classList.add("hidden");
+      updateGlobalScore();
+      renderQuizQuestion();
+    }
+
+    function answerCurrentQuestion(optionIndex) {
+      const q = quizList[quizIdx];
+      if (!q || (q.id in answersById)) return;
+      answersById[q.id] = optionIndex;
+      saveState();
+      updateGlobalScore();
+      renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+      const q = quizList[quizIdx];
+      if (!q) return;
+      const answered = quizList.filter(i => i.id in answersById).length;
+      const right = quizList.filter(i => answersById[i.id] === i.correct).length;
+      document.getElementById("quizMeta").textContent = `Fråga ${quizIdx + 1} av ${quizList.length}`;
+      document.getElementById("quizLiveScore").textContent = `${right} av ${answered} rätt`;
+      document.getElementById("quizBar").style.width = `${((quizIdx + 1) / quizList.length) * 100}%`;
+      document.getElementById("quizCategory").textContent = q.cat;
+      document.getElementById("quizQuestion").innerHTML = q.q;
+      quizHintBox.innerHTML = `<strong>Ledtråd:</strong> ${q.hint}`;
+      const autoShowHint = difficulty === "easy";
+      quizHintBox.classList.toggle("hidden", !autoShowHint);
+      quizHintToggle.textContent = autoShowHint ? "Dölj ledtråd" : "Visa ledtråd";
+
+      const chosen = answersById[q.id], hasAns = chosen !== undefined;
+      const opts = document.getElementById("quizOptions");
+      opts.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.className = "opt-btn";
+        if (hasAns) {
+          if (i === q.correct) btn.classList.add("opt-ok");
+          else if (i === chosen) btn.classList.add("opt-err");
+          else btn.classList.add("opt-dim");
+        }
+        const badge = hasAns ? (i === q.correct ? "Rätt" : (i === chosen ? "Ditt svar" : "")) : "";
+        btn.innerHTML = `
+          <span style="display:flex;align-items:center;gap:8px;">
+            <span class="opt-key">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </span>
+          <strong style="font-size:12px;flex-shrink:0;">${badge}</strong>`;
+        btn.disabled = hasAns;
+        btn.addEventListener("click", () => answerCurrentQuestion(i));
+        opts.appendChild(btn);
+      });
+
+      const fb = document.getElementById("quizFeedback");
+      if (hasAns) {
+        const ok = chosen === q.correct;
+        fb.className = `feedback-box ${ok ? "ok" : "err"}`;
+        document.getElementById("quizFeedbackTitle").textContent = ok ? "Rätt svar" : "Fel svar";
+        document.getElementById("quizFeedbackText").innerHTML = q.exp;
+        document.getElementById("quizFeedbackNerd").innerHTML = `<strong>Fördjupning:</strong> ${q.nerdExp}`;
+      } else fb.className = "feedback-box hidden";
+
+      document.getElementById("quizPrevBtn").disabled = quizIdx === 0;
+      document.getElementById("quizNextBtn").textContent = quizIdx === quizList.length - 1 ? "Se resultat" : "Nästa fråga";
+    }
+
+    function showQuizSummary() {
+      quizActiveArea.classList.add("hidden");
+      quizSummaryArea.classList.remove("hidden");
+      const total = quizList.length, right = quizList.filter(q => answersById[q.id] === q.correct).length;
+      const pct = total > 0 ? Math.round((right / total) * 100) : 0;
+      document.getElementById("summaryScoreBig").textContent = `${right} av ${total} (${pct} %)`;
+      document.getElementById("summaryMessage").textContent =
+        pct >= 85 ? "God kontroll på materialet inför förhöret"
+        : pct >= 60 ? "Bra grund, repetera de frågor du missade"
+        : "Fortsätt öva och kör Endast fel";
+      const byCat = {};
+      quizList.forEach(q => {
+        if (!byCat[q.cat]) byCat[q.cat] = { total: 0, right: 0 };
+        byCat[q.cat].total++;
+        if (answersById[q.id] === q.correct) byCat[q.cat].right++;
+      });
+      const bd = document.getElementById("summaryBreakdown");
+      bd.innerHTML = "";
+      Object.entries(byCat).forEach(([cat, st]) => {
+        const div = document.createElement("div");
+        div.className = `subpanel row-between`;
+        div.style.background = st.right === st.total ? "var(--success-bg)" : "var(--surface)";
+        div.innerHTML = `<span>${cat}</span><strong>${st.right}/${st.total}</strong>`;
+        bd.appendChild(div);
+      });
+      document.getElementById("summaryRetryWrong").classList.toggle("hidden", quizList.filter(q => answersById[q.id] !== q.correct).length === 0);
+    }
+
+    quizHintToggle.addEventListener("click", () => {
+      const h = quizHintBox.classList.toggle("hidden");
+      quizHintToggle.textContent = h ? "Visa ledtråd" : "Dölj ledtråd";
+    });
+    document.getElementById("quizPrevBtn").addEventListener("click", () => { if (quizIdx > 0) { quizIdx--; renderQuizQuestion(); } });
+    document.getElementById("quizNextBtn").addEventListener("click", () => { if (quizIdx < quizList.length - 1) { quizIdx++; renderQuizQuestion(); } else showQuizSummary(); });
+    document.querySelectorAll(".quiz-mode-btn").forEach(btn => btn.addEventListener("click", () => startQuiz(btn.dataset.mode)));
+    function resetQuiz() { quizList.forEach(q => delete answersById[q.id]); saveState(); updateGlobalScore(); startQuiz(quizMode === "wrong" ? "all" : quizMode); }
+    document.getElementById("quizResetBtn").addEventListener("click", resetQuiz);
+    document.getElementById("summaryRestart").addEventListener("click", resetQuiz);
+    document.getElementById("summaryRetryWrong").addEventListener("click", () => startQuiz("wrong"));
+    startQuiz("all");
+
+    // ---------- SPEL (9 MINISPEL) ----------
+    function parseSvNum(str) {
+      const clean = String(str || "").trim().replace(/\s+/g, "").replace(",", ".");
+      if (!clean) return NaN;
+      return Number(clean);
+    }
+    function isClose(val, target, tol) {
+      return Number.isFinite(val) && Math.abs(val - target) <= tol * diffTolMult();
+    }
+
+    let activeGame = "snake";
+    const gameContainers = {
+      snake: document.getElementById("game-snake"),
+      gates: document.getElementById("game-gates"),
+      pins: document.getElementById("game-pins"),
+      tower: document.getElementById("game-tower"),
+      coaster: document.getElementById("game-coaster"),
+      match: document.getElementById("game-match"),
+      sprint: document.getElementById("game-sprint"),
+      detective: document.getElementById("game-detective"),
+      grader: document.getElementById("game-grader")
+    };
+    const GAME_LABELS = {
+      snake: "Ormen",
+      gates: "Portvalet",
+      pins: "Dragpinnen",
+      tower: "Tornet",
+      coaster: "Fartkontrollen",
+      match: "Koppla begrepp",
+      sprint: "Snabbräkning",
+      detective: "Energidetektiven",
+      grader: "Rätta provet"
+    };
+
+    function updateGameTabsUI() {
+      document.querySelectorAll(".game-tab-btn").forEach(b => {
+        const key = b.dataset.game;
+        b.classList.toggle("is-active", key === activeGame);
+        b.textContent = GAME_LABELS[key] + (completedGames.has(key) ? " (Klar)" : "");
+      });
+      document.getElementById("gamesDoneBadge").textContent = `${completedGames.size} av 9 klara`;
+    }
+
+    function markGameDone(key) {
+      completedGames.add(key);
+      saveState();
+      updateGameTabsUI();
+    }
+
+    document.querySelectorAll(".game-tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeGame = btn.dataset.game;
+        Object.entries(gameContainers).forEach(([k, el]) => el.classList.toggle("hidden", k !== activeGame));
+        if (activeGame !== "snake") stopSnakeLoop();
+        updateGameTabsUI();
+      });
+    });
+
+    // --- SPEL: ORMEN (SNAKE MED PROVFRÅGOR) ---
+    const SNAKE_COLS = 22, SNAKE_ROWS = 14, SNAKE_CELL = 20;
+    const APPLE_COLORS = ["#2563eb", "#d97706", "#7c3aed", "#0d9488"];
+    let snakeBody = [], snakeDir = { x: 1, y: 0 }, snakeNextDir = { x: 1, y: 0 };
+    let snakeScore = 0, snakeRunning = false, snakeTimer = null, snakeQuestionIdx = 0;
+    let snakeApples = [], snakeActiveOpts = [];
+
+    function snakeTarget() { return difficulty === "easy" ? 5 : difficulty === "hard" ? 10 : 8; }
+    function snakeSpeed() { return difficulty === "easy" ? 220 : difficulty === "hard" ? 105 : 150; }
+    function snakeOptCount() { return difficulty === "hard" ? 4 : 3; }
+
+    function stopSnakeLoop() {
+      snakeRunning = false;
+      if (snakeTimer) { clearInterval(snakeTimer); snakeTimer = null; }
+    }
+
+    function buildSnakeRound() {
+      const pool = sortQuestionsByDifficulty(QUIZ_QUESTIONS);
+      const q = pool[snakeQuestionIdx % pool.length];
+      snakeQuestionIdx++;
+      const count = snakeOptCount();
+      const letters = ["A", "B", "C", "D"].slice(0, count);
+      // Ensure correct option is included in the first `count` options
+      const wrongIndices = q.options.map((_, i) => i).filter(i => i !== q.correct);
+      const chosenIndices = [q.correct, ...wrongIndices.slice(0, count - 1)];
+      // Deterministic shuffle based on snakeQuestionIdx + score
+      for (let i = chosenIndices.length - 1; i > 0; i--) {
+        const j = (snakeScore * 3 + i + snakeQuestionIdx) % (i + 1);
+        [chosenIndices[i], chosenIndices[j]] = [chosenIndices[j], chosenIndices[i]];
+      }
+      snakeActiveOpts = chosenIndices.map((optIdx, pos) => ({
+        letter: letters[pos],
+        text: q.options[optIdx],
+        isCorrect: optIdx === q.correct,
+        color: APPLE_COLORS[pos]
+      }));
+
+      // Place apples avoiding snake body
+      snakeApples = [];
+      snakeActiveOpts.forEach((opt, i) => {
+        let ax = 0, ay = 0, tries = 0;
+        do {
+          ax = Math.floor(Math.random() * SNAKE_COLS);
+          ay = Math.floor(Math.random() * SNAKE_ROWS);
+          tries++;
+        } while (
+          tries < 120 && (
+            snakeBody.some(s => s.x === ax && s.y === ay) ||
+            snakeApples.some(a => a.x === ax && a.y === ay) ||
+            (Math.abs(ax - snakeBody[0].x) + Math.abs(ay - snakeBody[0].y) < 3)
+          )
+        );
+        snakeApples.push({ x: ax, y: ay, ...opt, qRef: q });
+      });
+
+      document.getElementById("snakeQuestionText").innerHTML = q.q;
+      document.getElementById("snakeLegend").innerHTML = snakeActiveOpts.map(o =>
+        `<div class="panel" style="padding:6px 8px;"><span style="display:inline-block;width:10px;height:10px;background:${o.color};margin-right:6px;"></span><strong>${o.letter}:</strong> ${o.text}</div>`
+      ).join("");
+      document.getElementById("snakeNerdBox").innerHTML = `<strong>Ledtråd:</strong> ${q.hint}`;
+    }
+
+    function drawSnakeCanvas() {
+      const canvas = document.getElementById("snakeCanvas");
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      ctx.fillStyle = isDark ? "#262626" : "#e5e7eb";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Apples
+      snakeApples.forEach(a => {
+        ctx.fillStyle = a.color;
+        ctx.fillRect(a.x * SNAKE_CELL + 1, a.y * SNAKE_CELL + 1, SNAKE_CELL - 2, SNAKE_CELL - 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(a.letter, a.x * SNAKE_CELL + SNAKE_CELL / 2, a.y * SNAKE_CELL + SNAKE_CELL / 2);
+      });
+
+      // Snake
+      snakeBody.forEach((seg, idx) => {
+        ctx.fillStyle = idx === 0 ? "#16a34a" : (isDark ? "#f3f4f6" : "#111827");
+        ctx.fillRect(seg.x * SNAKE_CELL + 1, seg.y * SNAKE_CELL + 1, SNAKE_CELL - 2, SNAKE_CELL - 2);
+      });
+    }
+
+    function stepSnake() {
+      if (!snakeRunning) return;
+      snakeDir = snakeNextDir;
+      const head = { x: snakeBody[0].x + snakeDir.x, y: snakeBody[0].y + snakeDir.y };
+      const fb = document.getElementById("snakeFeedback");
+
+      if (head.x < 0 || head.x >= SNAKE_COLS || head.y < 0 || head.y >= SNAKE_ROWS ||
+          snakeBody.some(s => s.x === head.x && s.y === head.y)) {
+        stopSnakeLoop();
+        fb.className = "feedback-box err";
+        fb.textContent = "Krock med vägg eller svans. Tryck Starta för att spela igen";
+        return;
+      }
+
+      snakeBody.unshift(head);
+      const hitApple = snakeApples.find(a => a.x === head.x && a.y === head.y);
+
+      if (hitApple) {
+        if (hitApple.isCorrect) {
+          snakeScore++;
+          document.getElementById("snakeScore").textContent = snakeScore;
+          fb.className = "feedback-box ok";
+          fb.innerHTML = `<strong>Rätt svar</strong> (${hitApple.qRef.exp})`;
+          if (snakeScore >= snakeTarget()) {
+            stopSnakeLoop();
+            markGameDone("snake");
+            fb.innerHTML = `<strong>Klarat</strong> Du nådde ${snakeTarget()} rätt`;
+            drawSnakeCanvas();
+            return;
+          }
+          buildSnakeRound();
+        } else {
+          stopSnakeLoop();
+          fb.className = "feedback-box err";
+          fb.innerHTML = `<strong>Fel svar</strong> (${hitApple.letter} var fel). ${hitApple.qRef.exp}`;
+          drawSnakeCanvas();
+          return;
+        }
+      } else {
+        snakeBody.pop();
+      }
+      drawSnakeCanvas();
+    }
+
+    function startSnakeGame() {
+      stopSnakeLoop();
+      snakeBody = [{ x: 6, y: 7 }, { x: 5, y: 7 }, { x: 4, y: 7 }];
+      snakeDir = { x: 1, y: 0 };
+      snakeNextDir = { x: 1, y: 0 };
+      snakeScore = 0;
+      document.getElementById("snakeScore").textContent = "0";
+      document.getElementById("snakeTarget").textContent = snakeTarget();
+      document.getElementById("snakeFeedback").className = "feedback-box hidden";
+      buildSnakeRound();
+      drawSnakeCanvas();
+      snakeRunning = true;
+      snakeTimer = setInterval(stepSnake, snakeSpeed());
+    }
+
+    function setSnakeDirection(dirName) {
+      if (dirName === "up" && snakeDir.y !== 1) snakeNextDir = { x: 0, y: -1 };
+      else if (dirName === "down" && snakeDir.y !== -1) snakeNextDir = { x: 0, y: 1 };
+      else if (dirName === "left" && snakeDir.x !== 1) snakeNextDir = { x: -1, y: 0 };
+      else if (dirName === "right" && snakeDir.x !== -1) snakeNextDir = { x: 1, y: 0 };
+    }
+
+    document.getElementById("snakeStartBtn").addEventListener("click", startSnakeGame);
+    document.querySelectorAll(".snake-dir-btn").forEach(b => b.addEventListener("click", () => setSnakeDirection(b.dataset.dir)));
+
+    // --- SPEL: PORTVALET (GATE RUNNER) ---
+    const GATES_WAVES = [
+      { q: "72 km/h i m/s är", opts: ["20 m/s", "259 m/s", "7,2 m/s"], correct: 0, exp: "72 / 3,6 = 20 m/s" },
+      { q: "Dubbel fart gör att rörelseenergin blir", opts: ["4 gånger större", "2 gånger större", "Hälften så stor"], correct: 0, exp: "2² = 4 gånger större" },
+      { q: "Formeln för lägesenergi är", opts: ["Ep = m · g · h", "Ep = (m · v²) / 2", "Ep = F / s"], correct: 0, exp: "Lägesenergi ges av m · g · h" },
+      { q: "8,5 kJ i joule är", opts: ["8 500 J", "850 J", "85 000 J"], correct: 0, exp: "1 kJ = 1 000 J ger 8 500 J" },
+      { q: "Utan friktion i en backe förkortas", opts: ["Massan m bort", "Höjden h bort", "Tyngdfaktorn g bort"], correct: 0, exp: "m finns på båda sidor och förkortas bort" },
+      { q: "Verkningsgraden har enheten", opts: ["Ingen enhet", "Joule (J)", "Newton (N)"], correct: 0, exp: "Kvoten J / J blir enhetslös" }
+    ];
+    let gatesWave = 0, gatesEnergy = 100, gatesOver = false;
+
+    function renderGates() {
+      const gateCount = difficulty === "hard" ? 3 : 2;
+      document.getElementById("gatesEnergy").textContent = gatesEnergy;
+      document.getElementById("gatesWaveBadge").textContent = `Våg ${Math.min(gatesWave + 1, GATES_WAVES.length)} av ${GATES_WAVES.length}`;
+      const runnerX = 28 + (gatesWave / GATES_WAVES.length) * 360;
+      document.getElementById("gatesRunner").setAttribute("x", String(Math.round(runnerX)));
+
+      const qEl = document.getElementById("gatesQuestion");
+      const btnsEl = document.getElementById("gatesButtons");
+      btnsEl.innerHTML = "";
+
+      if (gatesOver) return;
+
+      const w = GATES_WAVES[gatesWave];
+      qEl.textContent = w.q;
+      document.getElementById("gatesNerdBox").innerHTML = `<strong>Regel:</strong> ${w.exp}`;
+      const gateNames = gateCount === 3 ? ["Vänster port", "Mittenport", "Höger port"] : ["Vänster port", "Höger port"];
+      const slice = w.opts.slice(0, gateCount).map((text, idx) => ({ text, isCorrect: idx === w.correct }));
+      // Deterministic mix per wave
+      for (let i = slice.length - 1; i > 0; i--) {
+        const j = (gatesWave + i) % (i + 1);
+        [slice[i], slice[j]] = [slice[j], slice[i]];
+      }
+
+      slice.forEach((item, idx) => {
+        const b = document.createElement("button");
+        b.className = "btn";
+        b.textContent = `${gateNames[idx]}: ${item.text}`;
+        b.addEventListener("click", () => {
+          if (gatesOver) return;
+          const fb = document.getElementById("gatesFeedback");
+          if (item.isCorrect) {
+            gatesEnergy = gatesEnergy * 2;
+            fb.className = "feedback-box ok";
+            fb.textContent = `Rätt port (dubblad energi): ${w.exp}`;
+          } else {
+            gatesEnergy = Math.round(gatesEnergy / 2);
+            fb.className = "feedback-box err";
+            fb.textContent = `Fel port (halverad energi): ${w.exp}`;
+          }
+          gatesWave++;
+          if (gatesWave >= GATES_WAVES.length) {
+            gatesOver = true;
+            document.getElementById("gatesEnergy").textContent = gatesEnergy;
+            document.getElementById("gatesRunner").setAttribute("x", "388");
+            if (gatesEnergy >= 2000) {
+              markGameDone("gates");
+              fb.className = "feedback-box ok";
+              fb.textContent = `Slutväggen krossad med ${gatesEnergy} J`;
+            } else {
+              fb.className = "feedback-box err";
+              fb.textContent = `För lite energi (${gatesEnergy} J av nödvändiga 2 000 J). Försök igen`;
+            }
+          }
+          renderGates();
+        });
+        btnsEl.appendChild(b);
+      });
+    }
+    function resetGates() {
+      gatesWave = 0; gatesEnergy = 100; gatesOver = false;
+      document.getElementById("gatesFeedback").className = "feedback-box hidden";
+      renderGates();
+    }
+    document.getElementById("gatesRestartBtn").addEventListener("click", resetGates);
+
+    // --- SPEL: DRAGPINNEN (PULL THE PIN) ---
+    const PINS_TASKS = [
+      { q: "En väska (50 N) lyfts 2,0 m upp. Vilken sprint ger rätt arbete?", opts: ["100 J", "982 J", "25 J"], correct: 0, exp: "W = 50 · 2,0 = 100 J (gångra inte N med 9,82)" },
+      { q: "En kula på 2,0 kg ligger 5,0 m högt (g = 9,82 N/kg). Vilken sprint ger rätt Ep?", opts: ["98,2 J", "10 J", "49,1 J"], correct: 0, exp: "Ep = 2,0 · 9,82 · 5,0 = 98,2 J" },
+      { q: "En vagn (4,0 kg) åker i 5,0 m/s. Vilken sprint ger rätt Ek?", opts: ["50 J", "10 J", "100 J"], correct: 0, exp: "Ek = (4,0 · 5,0²) / 2 = 50 J" },
+      { q: "Startenergi 1 000 J, energi i dalen 650 J. Hur mycket blev värme?", opts: ["350 J", "1 650 J", "650 J"], correct: 0, exp: "Wf = 1 000 − 650 = 350 J" },
+      { q: "Maskin får 2 000 J och gör 1 500 J nyttigt arbete. Vilken sprint ger verkningsgraden?", opts: ["75 %", "133 %", "25 %"], correct: 0, exp: "eta = 1 500 / 2 000 = 0,75 = 75 %" }
+    ];
+    let pinsIdx = 0, pinsLocked = false;
+    function renderPins() {
+      const t = PINS_TASKS[pinsIdx];
+      document.getElementById("pinsBadge").textContent = `Uppgift ${pinsIdx + 1} av ${PINS_TASKS.length}`;
+      document.getElementById("pinsQuestion").textContent = t.q;
+      document.getElementById("pinsNerdBox").innerHTML = `<strong>Lösning:</strong> ${t.exp}`;
+      document.getElementById("pinsFeedback").className = "feedback-box hidden";
+      document.getElementById("pinsNextBtn").classList.add("hidden");
+      document.getElementById("pinsRetryBtn").classList.add("hidden");
+      for (let i = 0; i < 3; i++) document.getElementById("pinBar" + i).setAttribute("opacity", "1");
+      document.getElementById("pinResultFlow").setAttribute("height", "0");
+      pinsLocked = false;
+
+      // Shuffle options deterministically per task
+      const order = [0, 1, 2];
+      for (let i = 2; i > 0; i--) {
+        const j = (pinsIdx + i) % (i + 1);
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      const optEl = document.getElementById("pinsOptions");
+      optEl.innerHTML = "";
+      const names = ["Sprint A", "Sprint B", "Sprint C"];
+      order.forEach((origIdx, btnPos) => {
+        const b = document.createElement("button");
+        b.className = "step-btn";
+        b.textContent = `Dra ${names[btnPos]}: ${t.opts[origIdx]}`;
+        b.addEventListener("click", () => {
+          if (pinsLocked) return;
+          pinsLocked = true;
+          const fb = document.getElementById("pinsFeedback");
+          const bar = document.getElementById("pinBar" + btnPos);
+          if (bar) bar.setAttribute("opacity", "0.2");
+          const flow = document.getElementById("pinResultFlow");
+          if (origIdx === t.correct) {
+            flow.setAttribute("fill", "#eab308");
+            flow.setAttribute("height", "40");
+            b.classList.add("ok");
+            fb.className = "feedback-box ok";
+            fb.textContent = `Rätt sprint: ${t.exp}`;
+            if (pinsIdx === PINS_TASKS.length - 1) {
+              markGameDone("pins");
+              fb.textContent = `Alla uppgifter klara: ${t.exp}`;
+            } else {
+              document.getElementById("pinsNextBtn").classList.remove("hidden");
+            }
+          } else {
+            flow.setAttribute("fill", "#dc2626");
+            flow.setAttribute("height", "40");
+            b.classList.add("err");
+            fb.className = "feedback-box err";
+            fb.textContent = `Fel sprint, värmen rann ner: ${t.exp}`;
+            document.getElementById("pinsRetryBtn").classList.remove("hidden");
+          }
+        });
+        optEl.appendChild(b);
+      });
+    }
+    document.getElementById("pinsNextBtn").addEventListener("click", () => { pinsIdx++; renderPins(); });
+    document.getElementById("pinsRetryBtn").addEventListener("click", renderPins);
+
+    // --- SPEL: TORNET (HERO TOWER) ---
+    const TOWER_FLOORS = [
+      { guard: 250, boost: 200, q: "Vad är 36 km/h i m/s?", opts: ["10 m/s", "129,6 m/s", "3,6 m/s"], correct: 0, exp: "36 / 3,6 = 10 m/s" },
+      { guard: 600, boost: 400, q: "Hur stort arbete utförs när 50 N drar 12 m?", opts: ["600 J", "4,2 J", "5 892 J"], correct: 0, exp: "W = 50 · 12 = 600 J" },
+      { guard: 1400, boost: 900, q: "Vad blir Ep för 10 kg på 10 m höjd? (g = 9,82)", opts: ["982 J", "100 J", "196 J"], correct: 0, exp: "Ep = 10 · 9,82 · 10 = 982 J" },
+      { guard: 3000, boost: 1800, q: "Vad blir Ek för 20 kg i farten 10 m/s?", opts: ["1 000 J", "200 J", "2 000 J"], correct: 0, exp: "Ek = (20 · 10²) / 2 = 1 000 J" },
+      { guard: 6500, boost: 4000, q: "En maskin ger 4 500 J nyttigt av 5,0 kJ tillfört. Verkningsgrad?", opts: ["90 %", "111 %", "45 %"], correct: 0, exp: "4 500 / 5 000 = 0,90 = 90 %" }
+    ];
+    let towerFloor = 0, towerPow = 100, towerLost = false;
+    function renderTower() {
+      document.getElementById("towerHeroPow").textContent = towerPow;
+      const floorsEl = document.getElementById("towerFloors");
+      floorsEl.innerHTML = "";
+      TOWER_FLOORS.forEach((f, idx) => {
+        const div = document.createElement("div");
+        div.className = "tower-floor" + (idx < towerFloor ? " cleared" : idx === towerFloor ? " current" : "");
+        const status = idx < towerFloor ? "Besegrad" : `Vakt: ${f.guard} J (Kista ger +${f.boost} J)`;
+        div.innerHTML = `<span>Våning ${idx + 1}</span><span>${status}</span>`;
+        floorsEl.appendChild(div);
+      });
+
+      const qBox = document.getElementById("towerQuestionBox");
+      if (towerFloor >= TOWER_FLOORS.length || towerLost) {
+        qBox.classList.add("hidden");
+        return;
+      }
+      qBox.classList.remove("hidden");
+      const cur = TOWER_FLOORS[towerFloor];
+      document.getElementById("towerQuestion").textContent = cur.q;
+      document.getElementById("towerNerdBox").innerHTML = `<strong>Lösning:</strong> ${cur.exp}`;
+      const chestsEl = document.getElementById("towerChests");
+      chestsEl.innerHTML = "";
+      const order = [0, 1, 2];
+      for (let i = 2; i > 0; i--) {
+        const j = (towerFloor + i) % (i + 1);
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      const chestNames = ["Kista A", "Kista B", "Kista C"];
+      order.forEach((origIdx, pos) => {
+        const b = document.createElement("button");
+        b.className = "btn";
+        b.textContent = `${chestNames[pos]}: ${cur.opts[origIdx]}`;
+        b.addEventListener("click", () => {
+          const fb = document.getElementById("towerFeedback");
+          if (origIdx === cur.correct) {
+            towerPow += cur.boost;
+            fb.className = "feedback-box ok";
+            fb.textContent = `Rätt kista (+${cur.boost} J). Du slog vakten (${cur.guard} J)`;
+            towerFloor++;
+            if (towerFloor >= TOWER_FLOORS.length) {
+              markGameDone("tower");
+              fb.textContent = `Hela tornet besegrat med ${towerPow} J`;
+            }
+          } else {
+            towerLost = true;
+            fb.className = "feedback-box err";
+            fb.textContent = `Fel kista (0 J). Vakten var för stark. ${cur.exp}`;
+          }
+          renderTower();
+        });
+        chestsEl.appendChild(b);
+      });
+    }
+    function resetTower() {
+      towerFloor = 0; towerPow = 100; towerLost = false;
+      document.getElementById("towerFeedback").className = "feedback-box hidden";
+      renderTower();
+    }
+    document.getElementById("towerRestartBtn").addEventListener("click", resetTower);
+
+    // --- SPEL: FARTKONTROLLEN ---
+    const G1_LEVELS = [
+      { prompt: "Vagnen släpps från vila på höjden h1 = 20 m utan friktion. Vilken fart får den i dalen?", unit: "m/s", ans: 19.82, tol: 0.35, simpleExp: "v2 = roten ur (2 · 9,82 · 20) = 19,8 m/s", nerdInfo: "m·g·h1 = ½m·v2² ger v2 = roten ur (2·g·h1)" },
+      { prompt: "Vagnen måste nå farten v2 = 14 m/s i dalen utan friktion. Vilken starthöjd h1 krävs?", unit: "m", ans: 9.98, tol: 0.25, simpleExp: "h1 = 14² / (2 · 9,82) = 10,0 m", nerdInfo: "Lös ut h1 ur ½m·v2² = m·g·h1: h1 = v2² / (2·g)" },
+      { prompt: "Vagnen rullar in i dalen med farten 12 m/s upp i en backe utan friktion. Hur högt kommer den?", unit: "m", ans: 7.33, tol: 0.2, simpleExp: "h2 = 12² / (2 · 9,82) = 7,3 m", nerdInfo: "All rörelseenergi blir lägesenergi i högsta punkten" },
+      { prompt: "Start från vila på 15 m höjd utan friktion. Vilken fart har vagnen på höjden 5,0 m?", unit: "m/s", ans: 14.01, tol: 0.25, simpleExp: "Fallhöjden är 10 m, v2 = roten ur (2 · 9,82 · 10) = 14,0 m/s", nerdInfo: "m·g·(h1 − h2) = ½m·v2²" },
+      { prompt: "En vagn (50 kg) startar på 10 m höjd och har farten 10 m/s i dalen. Hur mycket blev värme?", unit: "J", ans: 2410, tol: 20, simpleExp: "Ep1 = 4 910 J, Ek2 = 2 500 J ger Wf = 2 410 J", nerdInfo: "Wf = m·g·h1 − ½m·v2²" }
+    ];
+    let g1Idx = 0, g1Solved = false;
+    function renderG1() {
+      const lvl = G1_LEVELS[g1Idx];
+      document.getElementById("g1LevelBadge").textContent = `Bana ${g1Idx + 1} av ${G1_LEVELS.length}`;
+      document.getElementById("g1Prompt").textContent = lvl.prompt;
+      document.getElementById("g1Unit").textContent = lvl.unit;
+      document.getElementById("g1NerdBox").innerHTML = `<strong>Härledning:</strong> ${lvl.nerdInfo}`;
+      document.getElementById("g1Input").value = "";
+      document.getElementById("g1Feedback").className = "feedback-box hidden";
+      document.getElementById("g1NextBtn").classList.add("hidden");
+      document.getElementById("g1Cart").setAttribute("transform", "translate(35,20)");
+      g1Solved = false;
+    }
+    function submitG1() {
+      if (g1Solved) return;
+      const lvl = G1_LEVELS[g1Idx];
+      const val = parseSvNum(document.getElementById("g1Input").value);
+      const fb = document.getElementById("g1Feedback");
+      if (!Number.isFinite(val)) { fb.className = "feedback-box err"; fb.textContent = "Skriv ett tal"; return; }
+      if (isClose(val, lvl.ans, lvl.tol)) {
+        g1Solved = true;
+        document.getElementById("g1Cart").setAttribute("transform", "translate(455,92)");
+        fb.className = "feedback-box ok";
+        fb.textContent = `Rätt svar: ${lvl.simpleExp}`;
+        if (g1Idx === G1_LEVELS.length - 1) {
+          markGameDone("coaster");
+          fb.textContent = `Alla banor klara: ${lvl.simpleExp}`;
+        } else {
+          document.getElementById("g1NextBtn").classList.remove("hidden");
+        }
+      } else {
+        document.getElementById("g1Cart").setAttribute("transform", "translate(215,65)");
+        fb.className = "feedback-box err";
+        fb.textContent = val < lvl.ans ? "För lågt värde, försök igen" : "För högt värde, försök igen";
+      }
+    }
+    document.getElementById("g1Submit").addEventListener("click", submitG1);
+    document.getElementById("g1Input").addEventListener("keydown", e => { if (e.key === "Enter") submitG1(); });
+    document.getElementById("g1NextBtn").addEventListener("click", () => { if (g1Idx < G1_LEVELS.length - 1) { g1Idx++; renderG1(); } });
+
+    // --- SPEL: KOPPLA BEGREPP ---
+    const G2_ROUNDS = [
+      [["Arbete", "W = F · s"], ["Lägesenergi", "Ep = m · g · h"], ["Rörelseenergi", "Ek = (m · v²) / 2"], ["1 joule", "1 Nm"], ["1 kilojoule", "1 000 J"], ["Verkningsgrad", "E_nyttig / E_tillförd"]],
+      [["72 km/h", "20 m/s"], ["36 km/h", "10 m/s"], ["Dubbel fart", "4 gånger större Ek"], ["Tredubbel fart", "9 gånger större Ek"], ["Nollnivå", "Ep = 0 J"], ["Tyngdfaktorn g", "9,82 N/kg"]],
+      [["Mekanisk energi", "Ep + Ek"], ["Utan friktion", "Ep1 + Ek1 = Ep2 + Ek2"], ["Fart från vila", "v2 = roten ur (2 · g · h1)"], ["Friktionsarbete", "Wf = Ff · s"], ["Med friktion", "Emek,före = Emek,efter + Wf"], ["Enhet på verkningsgrad", "Saknar enhet"]]
+    ];
+    let g2Round = 0, g2SelLeft = null, g2Matched = new Set(), g2Errors = 0, g2Penalty = 0, g2Start = 0, g2TimerId = null, g2RightOrder = [];
+    function shuffleArr(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function updateG2Clock() {
+      const sec = ((Date.now() - g2Start) / 1000) + g2Penalty;
+      document.getElementById("g2Timer").textContent = `${sec.toFixed(1).replace(".", ",")} s`;
+    }
+    function renderG2() {
+      const pairs = G2_ROUNDS[g2Round];
+      document.getElementById("g2RoundBadge").textContent = `Omgång ${g2Round + 1} av ${G2_ROUNDS.length}`;
+      document.getElementById("g2Errors").textContent = g2Errors;
+      const leftCol = document.getElementById("g2LeftCol"), rightCol = document.getElementById("g2RightCol");
+      leftCol.innerHTML = ""; rightCol.innerHTML = "";
+      pairs.forEach(([txt], idx) => {
+        const b = document.createElement("button");
+        b.className = "match-tile";
+        if (g2Matched.has(idx)) { b.classList.add("matched"); b.disabled = true; }
+        else if (g2SelLeft === idx) b.classList.add("selected");
+        b.textContent = txt + (g2Matched.has(idx) ? " (Klar)" : "");
+        b.addEventListener("click", () => { if (!g2Matched.has(idx)) { g2SelLeft = idx; renderG2(); } });
+        leftCol.appendChild(b);
+      });
+      g2RightOrder.forEach(pairIdx => {
+        const b = document.createElement("button");
+        b.className = "match-tile";
+        if (g2Matched.has(pairIdx)) { b.classList.add("matched"); b.disabled = true; }
+        b.textContent = pairs[pairIdx][1];
+        b.addEventListener("click", () => {
+          if (g2SelLeft === null || g2Matched.has(pairIdx)) return;
+          const fb = document.getElementById("g2Feedback");
+          if (g2SelLeft === pairIdx) {
+            g2Matched.add(pairIdx); g2SelLeft = null;
+            fb.className = "feedback-box hidden";
+            if (g2Matched.size === pairs.length) {
+              if (g2Round === G2_ROUNDS.length - 1) {
+                clearInterval(g2TimerId); g2TimerId = null; markGameDone("match");
+                fb.className = "feedback-box ok"; fb.textContent = `Alla 3 omgångar klara med ${g2Errors} fel`;
+              } else {
+                fb.className = "feedback-box ok"; fb.textContent = `Omgång ${g2Round + 1} klar`;
+                document.getElementById("g2NextRound").classList.remove("hidden");
+              }
+            }
+            renderG2();
+          } else {
+            g2Errors++; g2Penalty += 3; g2SelLeft = null; updateG2Clock();
+            fb.className = "feedback-box err"; fb.textContent = "Fel par (+3 s tillägg)";
+            renderG2();
+          }
+        });
+        rightCol.appendChild(b);
+      });
+    }
+    function startG2Round(r) {
+      g2Round = r; g2SelLeft = null; g2Matched = new Set();
+      g2RightOrder = shuffleArr(G2_ROUNDS[r].map((_, i) => i));
+      document.getElementById("g2NextRound").classList.add("hidden");
+      document.getElementById("g2Feedback").className = "feedback-box hidden";
+      if (r === 0) {
+        g2Errors = 0; g2Penalty = 0; g2Start = Date.now();
+        if (g2TimerId) clearInterval(g2TimerId);
+        g2TimerId = setInterval(updateG2Clock, 200);
+      }
+      renderG2();
+    }
+    document.getElementById("g2NextRound").addEventListener("click", () => startG2Round(g2Round + 1));
+    document.getElementById("g2Restart").addEventListener("click", () => startG2Round(0));
+
+    // --- SPEL: SNABBRÄKNING ---
+    let g3TimerId = null, g3Left = 60, g3Score = 0, g3Streak = 0, g3MistakesOnCurrent = 0, g3Cur = null;
+    function g3Goal() { return difficulty === "easy" ? 6 : difficulty === "hard" ? 10 : 8; }
+    function g3Seconds() { return difficulty === "easy" ? 75 : difficulty === "hard" ? 45 : 60; }
+
+    function genG3Problem() {
+      const kind = Math.floor(Math.random() * 7);
+      if (kind === 0) {
+        const ms = [5, 10, 15, 20, 25, 30, 40][Math.floor(Math.random() * 7)];
+        const kmh = Math.round(ms * 3.6);
+        return { q: `Omvandla ${kmh} km/h till m/s`, unit: "m/s", ans: ms, tol: 0.05, hint: `${kmh} / 3,6` };
+      }
+      if (kind === 1) {
+        const kj = [1.5, 2.4, 3.5, 4.8, 6.2, 8.5][Math.floor(Math.random() * 6)];
+        return { q: `Omvandla ${String(kj).replace(".", ",")} kJ till Joule`, unit: "J", ans: Math.round(kj * 1000), tol: 1, hint: `${kj} · 1 000` };
+      }
+      if (kind === 2) {
+        const f = [20, 30, 40, 50, 60, 80][Math.floor(Math.random() * 6)];
+        const s = [2, 3, 4, 5, 8, 10][Math.floor(Math.random() * 6)];
+        return { q: `Kraft F = ${f} N, sträcka s = ${s} m. Arbete W?`, unit: "J", ans: f * s, tol: 0.5, hint: `${f} · ${s}` };
+      }
+      if (kind === 3) {
+        const m = [2, 4, 6, 8, 10][Math.floor(Math.random() * 5)];
+        const v = [3, 4, 5, 6, 10][Math.floor(Math.random() * 5)];
+        return { q: `Massa m = ${m} kg, fart v = ${v} m/s. Ek?`, unit: "J", ans: (m * v * v) / 2, tol: 0.5, hint: `(${m} · ${v}²) / 2` };
+      }
+      if (kind === 4) {
+        const pairs = [[10, 5], [10, 10], [50, 2], [20, 5], [5, 10]];
+        const [m, h] = pairs[Math.floor(Math.random() * pairs.length)];
+        return { q: `Massa m = ${m} kg, höjd h = ${h} m (g = 9,82). Ep?`, unit: "J", ans: +(m * 9.82 * h).toFixed(1), tol: 1.5, hint: `${m} · 9,82 · ${h}` };
+      }
+      if (kind === 5) {
+        const cases = [[300, 500, 60], [600, 800, 75], [350, 500, 70], [450, 1000, 45], [240, 300, 80], [400, 500, 80]];
+        const [en, et, pct] = cases[Math.floor(Math.random() * cases.length)];
+        return { q: `Nyttig energi ${en} J av tillförd ${et} J. Verkningsgrad i %?`, unit: "%", ans: pct, tol: 0.5, hint: `(${en} / ${et}) · 100` };
+      }
+      const k = [2, 3, 4][Math.floor(Math.random() * 3)];
+      return { q: `Farten ökar ${k} gånger. Hur många gånger större blir Ek?`, unit: "gånger", ans: k * k, tol: 0.1, hint: `${k}² = ${k * k}` };
+    }
+    function showNextG3() {
+      g3Cur = genG3Problem(); g3MistakesOnCurrent = 0;
+      document.getElementById("g3Question").textContent = g3Cur.q;
+      document.getElementById("g3Unit").textContent = g3Cur.unit;
+      document.getElementById("g3Hint").innerHTML = `<strong>Formel:</strong> ${g3Cur.hint}`;
+      document.getElementById("g3Input").value = "";
+      document.getElementById("g3Feedback").className = "feedback-box hidden";
+    }
+    function startG3() {
+      if (g3TimerId) clearInterval(g3TimerId);
+      g3Left = g3Seconds(); g3Score = 0; g3Streak = 0;
+      document.getElementById("g3Time").textContent = g3Left;
+      document.getElementById("g3Score").textContent = g3Score;
+      document.getElementById("g3Target").textContent = g3Goal();
+      document.getElementById("g3Streak").textContent = g3Streak;
+      document.getElementById("g3IdleArea").classList.add("hidden");
+      document.getElementById("g3DoneArea").className = "feedback-box hidden";
+      document.getElementById("g3PlayArea").classList.remove("hidden");
+      showNextG3();
+      g3TimerId = setInterval(() => {
+        g3Left--;
+        document.getElementById("g3Time").textContent = g3Left;
+        if (g3Left <= 0) {
+          clearInterval(g3TimerId); g3TimerId = null;
+          document.getElementById("g3PlayArea").classList.add("hidden");
+          document.getElementById("g3IdleArea").classList.remove("hidden");
+          const done = document.getElementById("g3DoneArea");
+          done.className = g3Score >= g3Goal() ? "feedback-box ok" : "feedback-box err";
+          done.textContent = g3Score >= g3Goal() ? `Målet nått: ${g3Score} rätt` : `Tiden är ute: ${g3Score} av ${g3Goal()} rätt`;
+        }
+      }, 1000);
+    }
+    function submitG3() {
+      if (!g3Cur) return;
+      const val = parseSvNum(document.getElementById("g3Input").value);
+      const fb = document.getElementById("g3Feedback");
+      if (!Number.isFinite(val)) { fb.className = "feedback-box err"; fb.textContent = "Skriv ett tal"; return; }
+      if (isClose(val, g3Cur.ans, g3Cur.tol)) {
+        g3Score++; g3Streak++;
+        document.getElementById("g3Score").textContent = g3Score;
+        document.getElementById("g3Streak").textContent = g3Streak;
+        if (g3Score >= g3Goal()) {
+          markGameDone("sprint"); clearInterval(g3TimerId); g3TimerId = null;
+          document.getElementById("g3PlayArea").classList.add("hidden");
+          document.getElementById("g3IdleArea").classList.remove("hidden");
+          const done = document.getElementById("g3DoneArea");
+          done.className = "feedback-box ok";
+          done.textContent = `Målet nått: ${g3Goal()} rätt med ${g3Left} s kvar`;
+        } else showNextG3();
+      } else {
+        g3Streak = 0; g3MistakesOnCurrent++;
+        document.getElementById("g3Streak").textContent = 0;
+        fb.className = "feedback-box err";
+        fb.textContent = `Fel svar (${g3Cur.hint}). Skriv rätt svar för nästa`;
+      }
+    }
+    document.getElementById("g3StartBtn").addEventListener("click", startG3);
+    document.getElementById("g3Submit").addEventListener("click", submitG3);
+    document.getElementById("g3Input").addEventListener("keydown", e => { if (e.key === "Enter") submitG3(); });
+
+    // --- SPEL: ENERGIDETEKTIVEN ---
+    const G4_CASES = [
+      { scenario: "En kula åker nerför en backe utan friktion (Wf = 0 J)", cells: [["Ep före", "800 J"], ["Ek före", "0 J"], ["Ep efter", "250 J"], ["Ek efter", "?"]], unit: "J", ans: 550, tol: 1, simpleExp: "800 − 250 = 550 J", nerdInfo: "Ep1 + Ek1 = Ep2 + Ek2" },
+      { scenario: "En kälke åker nerför en backe med friktion", cells: [["Ep före", "3 000 J"], ["Ek före", "0 J"], ["Ek efter", "1 850 J"], ["Värme Wf", "?"]], unit: "J", ans: 1150, tol: 2, simpleExp: "Wf = 3 000 − 1 850 = 1 150 J", nerdInfo: "Emek,före = Emek,efter + Wf" },
+      { scenario: "En boll kastas uppåt och tappar 50 J till luftmotstånd", cells: [["Ep före", "120 J"], ["Ek före", "480 J"], ["Ep efter", "450 J"], ["Ek efter", "?"]], unit: "J", ans: 100, tol: 1, simpleExp: "600 − 50 − 450 = 100 J", nerdInfo: "120 + 480 = 450 + Ek2 + 50" },
+      { scenario: "En låda glider s = 20 m tills den stannar", cells: [["Emek före", "2 400 J"], ["Emek efter", "1 600 J"], ["Sträcka s", "20 m"], ["Friktionskraft Ff", "?"]], unit: "N", ans: 40, tol: 0.5, simpleExp: "Wf = 800 J ger Ff = 800 / 20 = 40 N", nerdInfo: "Ff = (Emek,före − Emek,efter) / s" },
+      { scenario: "En elvinsch lyfter ett paket", cells: [["E_tillförd", "4,0 kJ"], ["E_nyttig", "2 800 J"], ["Förlust", "1 200 J"], ["Verkningsgrad", "?"]], unit: "%", ans: 70, tol: 0.5, simpleExp: "2 800 / 4 000 = 0,70 = 70 %", nerdInfo: "4,0 kJ = 4 000 J" }
+    ];
+    let g4Idx = 0, g4Solved = false;
+    function renderG4() {
+      const c = G4_CASES[g4Idx];
+      document.getElementById("g4Badge").textContent = `Fall ${g4Idx + 1} av ${G4_CASES.length}`;
+      document.getElementById("g4Scenario").textContent = c.scenario;
+      document.getElementById("g4Table").innerHTML = c.cells.map(([k, v]) => `<div><div class="muted" style="font-size:12px;">${k}</div><div style="font-weight:700;">${v}</div></div>`).join("");
+      document.getElementById("g4NerdBox").innerHTML = `<strong>Balans:</strong> ${c.nerdInfo}`;
+      document.getElementById("g4Unit").textContent = c.unit;
+      document.getElementById("g4Input").value = "";
+      document.getElementById("g4Feedback").className = "feedback-box hidden";
+      document.getElementById("g4NextBtn").classList.add("hidden");
+      g4Solved = false;
+    }
+    function submitG4() {
+      if (g4Solved) return;
+      const c = G4_CASES[g4Idx];
+      const val = parseSvNum(document.getElementById("g4Input").value);
+      const fb = document.getElementById("g4Feedback");
+      if (!Number.isFinite(val)) { fb.className = "feedback-box err"; fb.textContent = "Skriv ett tal"; return; }
+      if (isClose(val, c.ans, c.tol)) {
+        g4Solved = true; fb.className = "feedback-box ok"; fb.textContent = `Rätt svar: ${c.simpleExp}`;
+        if (g4Idx === G4_CASES.length - 1) { markGameDone("detective"); fb.textContent = `Alla 5 fall klara: ${c.simpleExp}`; }
+        else document.getElementById("g4NextBtn").classList.remove("hidden");
+      } else { fb.className = "feedback-box err"; fb.textContent = "Fel värde, kontrollera energibalansen"; }
+    }
+    document.getElementById("g4Submit").addEventListener("click", submitG4);
+    document.getElementById("g4Input").addEventListener("keydown", e => { if (e.key === "Enter") submitG4(); });
+    document.getElementById("g4NextBtn").addEventListener("click", () => { if (g4Idx < G4_CASES.length - 1) { g4Idx++; renderG4(); } });
+
+    // --- SPEL: RÄTTA PROVET ---
+    const G5_PROBLEMS = [
+      { problem: "En bil (1 000 kg) kör i 72 km/h. Beräkna rörelseenergin i Joule.", steps: ["v = 72 m/s", "Ek = (1 000 · 72²) / 2", "Ek = 2 592 000 J"], badStep: 0, unit: "J", ans: 200000, tol: 10, simpleExp: "72 / 3,6 = 20 m/s ger Ek = 200 000 J", nerdInfo: "km/h måste delas med 3,6 först" },
+      { problem: "En matkasse med tyngden 50 N lyfts 0,80 m upp. Beräkna arbetet.", steps: ["F = 50 N, s = 0,80 m", "W = 50 · 9,82 · 0,80", "W = 392,8 J"], badStep: 1, unit: "J", ans: 40, tol: 0.5, simpleExp: "W = 50 · 0,80 = 40 J", nerdInfo: "Tyngden står redan i Newton" },
+      { problem: "En vagn (10 kg) rör sig i 6,0 m/s. Beräkna rörelseenergin.", steps: ["m = 10 kg, v = 6,0 m/s", "Ek = (10 · 6,0) / 2", "Ek = 30 J"], badStep: 1, unit: "J", ans: 180, tol: 1, simpleExp: "Ek = (10 · 6,0²) / 2 = 180 J", nerdInfo: "Farten ska kvadreras" },
+      { problem: "En motor tillförs 2,5 kJ och ger 1 500 J nyttigt. Verkningsgrad i %?", steps: ["E_tillförd = 2 500 J, E_nyttig = 1 500 J", "eta = 2 500 / 1 500", "eta = 167 %"], badStep: 1, unit: "%", ans: 60, tol: 0.5, simpleExp: "eta = 1 500 / 2 500 = 60 %", nerdInfo: "Nyttig delat med tillförd, aldrig över 100 %" },
+      { problem: "En kälke har 4,0 kJ före och 1 500 J efter. Värme i Joule?", steps: ["E_före = 4,0 och E_efter = 1 500", "Wf = 1 500 − 4,0", "Wf = 1 496 J"], badStep: 0, unit: "J", ans: 2500, tol: 5, simpleExp: "4,0 kJ = 4 000 J ger Wf = 2 500 J", nerdInfo: "Omvandla kJ till J först" }
+    ];
+    let g5Idx = 0, g5SelStep = null, g5Solved = false;
+    function renderG5() {
+      const p = G5_PROBLEMS[g5Idx];
+      document.getElementById("g5Badge").textContent = `Uppgift ${g5Idx + 1} av ${G5_PROBLEMS.length}`;
+      document.getElementById("g5Problem").textContent = p.problem;
+      const stepsEl = document.getElementById("g5Steps");
+      stepsEl.innerHTML = "";
+      p.steps.forEach((s, idx) => {
+        const b = document.createElement("button");
+        b.className = "step-btn" + (g5SelStep === idx ? " selected" : "");
+        if (g5Solved && idx === p.badStep) b.classList.add("ok");
+        b.textContent = s; b.disabled = g5Solved;
+        b.addEventListener("click", () => {
+          g5SelStep = idx;
+          stepsEl.querySelectorAll(".step-btn").forEach((el, j) => el.classList.toggle("selected", j === idx));
+        });
+        stepsEl.appendChild(b);
+      });
+      document.getElementById("g5NerdBox").innerHTML = `<strong>Tips:</strong> ${p.nerdInfo}`;
+      document.getElementById("g5Unit").textContent = p.unit;
+      document.getElementById("g5Input").value = "";
+      document.getElementById("g5Feedback").className = "feedback-box hidden";
+      document.getElementById("g5NextBtn").classList.add("hidden");
+    }
+    function submitG5() {
+      if (g5Solved) return;
+      const p = G5_PROBLEMS[g5Idx];
+      const val = parseSvNum(document.getElementById("g5Input").value);
+      const fb = document.getElementById("g5Feedback");
+      if (g5SelStep === null) { fb.className = "feedback-box err"; fb.textContent = "Välj felaktigt steg först"; return; }
+      if (!Number.isFinite(val)) { fb.className = "feedback-box err"; fb.textContent = "Skriv in rätt slutsvar"; return; }
+      if (g5SelStep === p.badStep && isClose(val, p.ans, p.tol)) {
+        g5Solved = true; fb.className = "feedback-box ok"; fb.textContent = `Rättat: ${p.simpleExp}`;
+        document.getElementById("g5Steps").children[p.badStep].classList.add("ok");
+        if (g5Idx === G5_PROBLEMS.length - 1) { markGameDone("grader"); fb.textContent = `Alla uppgifter rättade: ${p.simpleExp}`; }
+        else document.getElementById("g5NextBtn").classList.remove("hidden");
+      } else if (g5SelStep !== p.badStep) {
+        fb.className = "feedback-box err"; fb.textContent = "Fel steg markerat, försök igen";
+      } else {
+        fb.className = "feedback-box err"; fb.textContent = "Rätt steg, men slutsvaret stämmer inte";
+      }
+    }
+    document.getElementById("g5Submit").addEventListener("click", submitG5);
+    document.getElementById("g5Input").addEventListener("keydown", e => { if (e.key === "Enter") submitG5(); });
+    document.getElementById("g5NextBtn").addEventListener("click", () => { if (g5Idx < G5_PROBLEMS.length - 1) { g5Idx++; g5SelStep = null; g5Solved = false; renderG5(); } });
+
+    function renderAllGames() {
+      updateGameTabsUI();
+      document.getElementById("snakeTarget").textContent = snakeTarget();
+      document.getElementById("g3Target").textContent = g3Goal();
+      document.getElementById("g3Time").textContent = g3Seconds();
+      renderGates();
+      renderPins();
+      renderTower();
+      renderG1();
+      renderG2();
+      renderG4();
+      renderG5();
+    }
+    function resetAllGames() {
+      stopSnakeLoop();
+      snakeScore = 0; document.getElementById("snakeScore").textContent = "0";
+      document.getElementById("snakeFeedback").className = "feedback-box hidden";
+      g1Idx = 0; g4Idx = 0; g5Idx = 0; g5SelStep = null; g5Solved = false;
+      pinsIdx = 0;
+      resetGates();
+      resetTower();
+      if (g2TimerId) { clearInterval(g2TimerId); g2TimerId = null; }
+      if (g3TimerId) { clearInterval(g3TimerId); g3TimerId = null; }
+      document.getElementById("g3PlayArea").classList.add("hidden");
+      document.getElementById("g3IdleArea").classList.remove("hidden");
+      document.getElementById("g3DoneArea").className = "feedback-box hidden";
+      startG2Round(0);
+      renderAllGames();
+    }
+    startG2Round(0);
+    renderAllGames();
+
+    // ---------- SIMULATOR ----------
+    const simPos = document.getElementById("simPos"), simH = document.getElementById("simH"), simM = document.getElementById("simM"), simFricPct = document.getElementById("simFricPct");
+    const simModeNoFric = document.getElementById("simModeNoFric"), simModeFric = document.getElementById("simModeFric");
+    let simHasFriction = false;
+    function setSimFriction(flag) {
+      simHasFriction = flag;
+      document.getElementById("simFricControl").classList.toggle("hidden", !flag);
+      simModeNoFric.classList.toggle("is-active", !flag);
+      simModeFric.classList.toggle("is-active", flag);
+      updateSim();
+    }
+    simModeNoFric.addEventListener("click", () => setSimFriction(false));
+    simModeFric.addEventListener("click", () => setSimFriction(true));
+    document.querySelectorAll(".sim-jump").forEach(b => b.addEventListener("click", () => { simPos.value = b.dataset.pos; updateSim(); }));
+    document.getElementById("presetCoaster").addEventListener("click", () => { simH.value = 24; simM.value = 80; simPos.value = 100; setSimFriction(false); });
+    document.getElementById("presetSled").addEventListener("click", () => { simH.value = 8; simM.value = 45; simFricPct.value = 42.6; simPos.value = 100; setSimFriction(true); });
+
+    function updateSim() {
+      const g = 9.82, p = parseFloat(simPos.value) / 100, h1 = parseFloat(simH.value), m = parseFloat(simM.value);
+      const fricTotal = simHasFriction ? parseFloat(simFricPct.value) / 100 : 0;
+      document.getElementById("simPosVal").textContent = `${Math.round(p * 100)} %`;
+      document.getElementById("simHVal").textContent = `${h1} m`;
+      document.getElementById("simMVal").textContent = `${m} kg`;
+      document.getElementById("simFricVal").textContent = `${(fricTotal * 100).toFixed(1).replace(".", ",")} %`;
+
+      const hCurr = h1 * 0.5 * (1 + Math.cos(Math.PI * p));
+      const eTot = m * g * h1, eP = m * g * hCurr, wF = eTot * fricTotal * p;
+      const eK = Math.max(0, eTot - eP - wF), eMek = eP + eK, v = Math.sqrt((2 * eK) / m);
+      const fmtJ = val => val >= 1000 ? `${(val / 1000).toFixed(2)} kJ (${Math.round(val)} J)` : `${Math.round(val)} J`;
+
+      document.getElementById("readH").textContent = `${hCurr.toFixed(1)} m`;
+      document.getElementById("readV").textContent = `${v.toFixed(1)} m/s`;
+      document.getElementById("readVKmh").textContent = `${(v * 3.6).toFixed(0)} km/h`;
+      document.getElementById("readEmek").textContent = eMek >= 1000 ? `${(eMek / 1000).toFixed(2)} kJ` : `${Math.round(eMek)} J`;
+      document.getElementById("readEtot").textContent = eTot >= 1000 ? `${(eTot / 1000).toFixed(2)} kJ` : `${Math.round(eTot)} J`;
+      document.getElementById("barEpText").textContent = fmtJ(eP);
+      document.getElementById("barEkText").textContent = fmtJ(eK);
+      document.getElementById("barWfText").textContent = fmtJ(wF);
+      document.getElementById("barEp").style.width = `${(eP / eTot) * 100}%`;
+      document.getElementById("barEk").style.width = `${(eK / eTot) * 100}%`;
+      document.getElementById("barWf").style.width = `${(wF / eTot) * 100}%`;
+
+      const pts = [];
+      for (let i = 0; i <= 40; i++) {
+        const t = i / 40, px = 40 + t * 420, py = 134 - 0.5 * (1 + Math.cos(Math.PI * t)) * 112;
+        pts.push(`${i === 0 ? "M" : "L"} ${px.toFixed(1)} ${py.toFixed(1)}`);
+      }
+      const dStr = pts.join(" ");
+      document.getElementById("simSlopePath").setAttribute("d", dStr);
+      document.getElementById("simSlopeArea").setAttribute("d", dStr + " L 460 134 L 40 134 Z");
+      document.getElementById("simCart").setAttribute("transform", `translate(${(40 + p * 420).toFixed(1)},${(134 - (hCurr / h1) * 112).toFixed(1)})`);
+      document.getElementById("simHeightLabel").textContent = `h1 = ${h1} m`;
+      document.getElementById("simInsight").textContent = simHasFriction
+        ? `Med friktion: ${Math.round(wF)} J har omvandlats till värme`
+        : `Utan friktion: mekanisk energi är konstant ${Math.round(eTot)} J`;
+    }
+    [simPos, simH, simM, simFricPct].forEach(el => el.addEventListener("input", updateSim));
+    updateSim();
+
+    // ---------- TANGENTBORDSGENVÄGAR ----------
+    window.addEventListener("keydown", e => {
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA")) return;
+      if (activeTab === "games" && activeGame === "snake" && snakeRunning) {
+        const k = e.key.toLowerCase();
+        if (e.key === "ArrowUp" || k === "w") { e.preventDefault(); setSnakeDirection("up"); }
+        else if (e.key === "ArrowDown" || k === "s") { e.preventDefault(); setSnakeDirection("down"); }
+        else if (e.key === "ArrowLeft" || k === "a") { e.preventDefault(); setSnakeDirection("left"); }
+        else if (e.key === "ArrowRight" || k === "d") { e.preventDefault(); setSnakeDirection("right"); }
+        return;
+      }
+      if (activeTab === "flashcards") {
+        if (e.code === "Space") { e.preventDefault(); toggleFlashcard(); }
+        else if (e.key === "ArrowRight") { fcPos++; fcFlipped = false; renderFlashcard(); }
+        else if (e.key === "ArrowLeft") { fcPos--; fcFlipped = false; renderFlashcard(); }
+      } else if (activeTab === "quiz") {
+        const k = e.key.toLowerCase();
+        if (k === "a" || k === "1") answerCurrentQuestion(0);
+        else if (k === "b" || k === "2") answerCurrentQuestion(1);
+        else if (k === "c" || k === "3") answerCurrentQuestion(2);
+        else if (k === "d" || k === "4") answerCurrentQuestion(3);
+        else if (e.key === "ArrowRight") { if (quizIdx < quizList.length - 1) { quizIdx++; renderQuizQuestion(); } }
+        else if (e.key === "ArrowLeft") { if (quizIdx > 0) { quizIdx--; renderQuizQuestion(); } }
+      }
+    });
+  </script>
+</body>
+</html>

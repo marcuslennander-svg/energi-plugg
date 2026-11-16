@@ -1,0 +1,36 @@
+{
+  "name": "energi-plugg",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build && npx wrangler dev",
+    "dev:client": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "seed:gen": "tsx scripts/seed-curriculum.ts",
+    "lint:sv": "tsx scripts/validate-swedish-copy.ts",
+    "lint:slop": "tsx scripts/validate-ui-slop.ts",
+    "lint:all": "npm run lint:sv && npm run lint:slop",
+    "db:migrate:local": "npx wrangler d1 migrations apply energi-plugg-db --local",
+    "db:migrate:remote": "npx wrangler d1 migrations apply energi-plugg-db --remote",
+    "db:verify-backup": "tsx scripts/verify-backup.ts",
+    "test:concurrency": "tsx scripts/load-test-concurrency.ts",
+    "deploy": "npm run build && npm run lint:all && npx wrangler deploy"
+  },
+  "dependencies": {
+    "@fontsource/familjen-grotesk": "^5.0.0",
+    "hono": "^4.7.0",
+    "katex": "^0.16.21",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261113.1",
+    "@types/katex": "^0.16.7",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.9",
+    "wrangler": "^4.162.0"
+  }
+}

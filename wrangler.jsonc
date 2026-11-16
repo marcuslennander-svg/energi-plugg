@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler",
+  "name": "energi-plugg",
+  "account_id": "e66d4ddb47403e8a7e339a8f5e0f9349",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./dist/public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/auth/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "energi-plugg-db",
+      "database_id": "5f9b65e2-5990-4bf8-9031-2811b8dbdd79",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

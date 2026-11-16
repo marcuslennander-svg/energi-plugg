@@ -1,0 +1,9 @@
+# Lokal utvecklingsmiljö (kopiera till .dev.vars och fyll i riktiga nycklar)
+SESSION_PEPPER=byt-ut-till-slumpmassig-strang-minst-32-tecken
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+RESEND_API_KEY=re_...
+EMAIL_FROM=Gymasiestudiet <no-reply@gymasiestudiet.se>
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+PUBLIC_BASE_URL=http://127.0.0.1:8787
